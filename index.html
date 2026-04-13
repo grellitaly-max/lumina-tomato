@@ -139,11 +139,8 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
 .cal-day.today{background:var(--primary);color:white;font-weight:700}
 
 /* Week chart — bigger top radius */
-.week-chart-wrap{touch-action:pan-y;user-select:none}
-.week-chart{display:flex;gap:6px;align-items:flex-end;height:88px;margin-bottom:6px}
-.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end;gap:3px}
-.bar-label{font-size:9px;font-weight:700;color:var(--text-2);line-height:1;text-align:center;min-height:11px}
-.bar-label.has-val{color:var(--primary)}
+.week-chart{display:flex;gap:6px;align-items:flex-end;height:72px;margin-bottom:6px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end}
 .bar{width:100%;border-radius:10px 10px 3px 3px;background:var(--s3);min-height:4px;transition:height .5s ease}
 .bar.has-data{background:linear-gradient(180deg,var(--primary-c),var(--primary))}
 .bar.today-bar{background:linear-gradient(180deg,#c4b5fd,var(--tertiary))}
@@ -411,71 +408,29 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
 
       <div class="card">
         <p class="section-title">Study Insights</p>
-
-        <!-- Today -->
-        <div style="display:flex;gap:10px;margin-bottom:16px">
-          <div class="stat-card" style="flex:1">
-            <p class="stat-label">Today Focus</p>
-            <p class="stat-value" id="ins-today-hrs">0h</p>
-            <p style="font-size:10px;color:var(--text-2)">today</p>
-          </div>
-          <div class="stat-card" style="flex:1">
-            <p class="stat-label">Today Sessions</p>
-            <p class="stat-value" id="ins-today-sessions">0</p>
-            <p style="font-size:10px;color:var(--text-2)">today</p>
-          </div>
-        </div>
-
-        <!-- Week navigation -->
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-          <button onclick="changeChartWeek(-1)" style="background:var(--s1);border:none;border-radius:99px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-2)">
-            <span class="ms" style="font-size:18px">chevron_left</span>
-          </button>
-          <span id="chart-week-label" style="font-size:12px;font-weight:700;color:var(--text-2)">This Week</span>
-          <button id="chart-next-btn" onclick="changeChartWeek(1)" style="background:var(--s1);border:none;border-radius:99px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-2)">
-            <span class="ms" style="font-size:18px">chevron_right</span>
-          </button>
-        </div>
-
-        <!-- Chart -->
-        <div class="week-chart-wrap" id="week-chart-wrap">
-          <div class="week-chart" id="week-chart"></div>
-        </div>
+        <div class="week-chart" id="week-chart"></div>
         <div class="week-days" id="week-days"></div>
-
-        <div style="height:14px"></div>
-
-        <!-- Weekly stats -->
-        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);margin-bottom:8px">This Selected Week</p>
-        <div class="stat-grid" style="margin-bottom:10px">
+        <div style="height:12px"></div>
+        <div class="stat-grid">
           <div class="stat-card">
             <p class="stat-label">Focus Time</p>
             <p class="stat-value"><span id="ins-hrs">0</span>h</p>
-          </div>
-          <div class="stat-card">
-            <p class="stat-label">Sessions</p>
-            <p class="stat-value" id="ins-week-sessions">0</p>
-          </div>
-          <div class="stat-card">
-            <p class="stat-label">Best Day</p>
-            <p class="stat-value" id="ins-best">—</p>
-          </div>
-          <div class="stat-card">
-            <p class="stat-label">Avg Mood</p>
-            <p class="stat-value" id="ins-mood">—</p>
-          </div>
-        </div>
-
-        <!-- All-time stats -->
-        <p style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);margin-bottom:8px">All Time</p>
-        <div class="stat-grid">
-          <div class="stat-card">
-            <p class="stat-label">Total Hours</p>
-            <p class="stat-value" id="ins-total-hrs">0h</p>
+            <p style="font-size:10px;color:var(--text-2)">this week</p>
           </div>
           <div class="stat-card">
             <p class="stat-label">Total Sessions</p>
             <p class="stat-value" id="ins-sessions">0</p>
+            <p style="font-size:10px;color:var(--text-2)">logged</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-label">Best Day</p>
+            <p class="stat-value" id="ins-best">—</p>
+            <p style="font-size:10px;color:var(--text-2)">this week</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-label">Avg Mood</p>
+            <p class="stat-value" id="ins-mood">—</p>
+            <p style="font-size:10px;color:var(--text-2)">this week</p>
           </div>
         </div>
       </div>
@@ -732,11 +687,9 @@ function todayMins() { return S.sessions.filter(s=>s.date===today()).reduce((s,x
 
 function streak() {
   const days = new Set(S.sessions.map(s=>s.date));
-  let n = 0;
+  let n=0;
   const base = nowCN();
-  // Start from today if studied, otherwise from yesterday (streak still alive today)
-  const startOffset = days.has(today()) ? 0 : 1;
-  for(let i = startOffset; i < 9999; i++) {
+  for(let i=0; i<9999; i++) {
     const d = new Date(base.getTime() - i*86400000);
     const ds = d.toISOString().split('T')[0];
     if(days.has(ds)) n++;
@@ -745,27 +698,19 @@ function streak() {
   return n;
 }
 
-// weekOffset: 0=current week, -1=last week, etc. (Mon–Sun, UTC+8)
-function weekData(weekOffset=0) {
+// Week from Mon to Sun (UTC+8), always 7 days Mon→Sun of current week
+function weekData() {
   const now = nowCN();
-  const dow = now.getUTCDay(); // 0=Sun
-  const daysFromMon = dow === 0 ? 6 : dow - 1;
-  // Monday of the target week
-  const monMs = now.getTime() - daysFromMon*86400000 + weekOffset*7*86400000;
+  const dow = now.getUTCDay(); // 0=Sun,1=Mon,...,6=Sat
+  const daysFromMon = dow === 0 ? 6 : dow - 1; // Mon=0...Sun=6
   const r = [];
   const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const todayStr = today();
-  for(let i = 0; i < 7; i++) {
-    const d = new Date(monMs + i*86400000);
+  for(let i=0; i<7; i++) {
+    const offset = i - daysFromMon; // negative = past, 0 = today if today is same day
+    const d = new Date(now.getTime() + offset*86400000);
     const ds = d.toISOString().split('T')[0];
     const mins = S.sessions.filter(s=>s.date===ds).reduce((s,x)=>s+x.minutes,0);
-    r.push({
-      date: ds,
-      day: DAY_NAMES[d.getUTCDay()],
-      minutes: mins,
-      isToday: ds === todayStr,
-      isFuture: ds > todayStr
-    });
+    r.push({date:ds, day:DAY_NAMES[d.getUTCDay()], minutes:mins, isToday:ds===today(), isFuture: offset>0});
   }
   return r;
 }
@@ -1359,90 +1304,8 @@ function renderHome() {
   document.getElementById('home-focus').textContent=getFocusDisplay();
 }
 
-// ═══ CHART WEEK NAVIGATION ═══
-let chartWeekOffset = 0;
-
-function changeChartWeek(delta) {
-  const newOffset = chartWeekOffset + delta;
-  if(newOffset > 0) return; // can't go into future
-  chartWeekOffset = newOffset;
-  renderWeekChart();
-  renderWeekStats();
-  // disable next button at offset=0
-  const btn = document.getElementById('chart-next-btn');
-  if(btn) btn.style.opacity = chartWeekOffset === 0 ? '0.3' : '1';
-}
-
-// Touch swipe on chart
-let chartTouchX = null;
-function initChartSwipe() {
-  const wrap = document.getElementById('week-chart-wrap');
-  if(!wrap) return;
-  wrap.addEventListener('touchstart', e=>{ chartTouchX = e.touches[0].clientX; }, {passive:true});
-  wrap.addEventListener('touchend', e=>{
-    if(chartTouchX === null) return;
-    const dx = e.changedTouches[0].clientX - chartTouchX;
-    if(Math.abs(dx) > 40) changeChartWeek(dx > 0 ? -1 : 1);
-    chartTouchX = null;
-  }, {passive:true});
-}
-
-function fmtBarLabel(mins) {
-  if(mins === 0) return '';
-  if(mins < 60) return `${mins}m`;
-  const h = Math.floor(mins/60), m = mins%60;
-  return m ? `${h}h${m}m` : `${h}h`;
-}
-
-function weekLabel(offset) {
-  if(offset === 0) return 'This Week';
-  if(offset === -1) return 'Last Week';
-  return `${Math.abs(offset)} Weeks Ago`;
-}
-
-function renderWeekChart() {
-  const data = weekData(chartWeekOffset);
-  const maxMins = Math.max(...data.map(d=>d.minutes), 1);
-  const CHART_H = 68; // px for bar area (label uses remaining 20px)
-
-  document.getElementById('chart-week-label').textContent = weekLabel(chartWeekOffset);
-  document.getElementById('chart-next-btn').style.opacity = chartWeekOffset === 0 ? '0.3' : '1';
-
-  document.getElementById('week-chart').innerHTML = data.map(d=>{
-    const h = Math.max(4, (d.minutes/maxMins)*CHART_H);
-    let barCls = 'bar';
-    if(!d.isFuture && d.minutes > 0) barCls += d.isToday ? ' today-bar' : ' has-data';
-    const label = fmtBarLabel(d.minutes);
-    return `<div class="bar-col">
-      <span class="bar-label${label?' has-val':''}">${label}</span>
-      <div class="${barCls}" style="height:${h}px"></div>
-    </div>`;
-  }).join('');
-
-  document.getElementById('week-days').innerHTML = data.map(d=>
-    `<div class="bar-day${d.isToday?' today':''}">${d.day}</div>`
-  ).join('');
-}
-
-function renderWeekStats() {
-  const wd = weekData(chartWeekOffset);
-  const wm = wd.reduce((s,d)=>s+d.minutes, 0);
-  document.getElementById('ins-hrs').textContent = (wm/60).toFixed(1);
-  const weekDates = wd.map(d=>d.date);
-  const wSessions = S.sessions.filter(s=>weekDates.includes(s.date));
-  document.getElementById('ins-week-sessions').textContent = wSessions.length;
-  const best = wd.reduce((b,d)=>(!b||d.minutes>b.minutes)?d:b, null);
-  document.getElementById('ins-best').textContent = best&&best.minutes>0 ? best.day : '—';
-  const ws = wSessions.filter(s=>s.mood);
-  if(ws.length){
-    const avg = ws.reduce((s,x)=>s+(MOOD_SCORE[x.mood]||60),0)/ws.length;
-    document.getElementById('ins-mood').textContent = avg>=90?'😄':avg>=70?'😊':avg>=45?'😐':'😴';
-  } else document.getElementById('ins-mood').textContent = '—';
-}
-
 // ═══ RENDER ACHIEVEMENTS ═══
 function renderAchievements() {
-  // XP & Level
   const xp=totalXP(), cl=curLevel(), nl=nextLevel();
   document.getElementById('cur-level').textContent=cl.n;
   document.getElementById('level-name').textContent=cl.name;
@@ -1452,30 +1315,24 @@ function renderAchievements() {
   document.getElementById('xp-cur').textContent=xp.toLocaleString();
   document.getElementById('xp-next-lbl').textContent=(nl?nl.min:cl.max).toLocaleString();
   document.getElementById('xp-msg').textContent=nl?`Keep going~ ${(nl.min-xp).toLocaleString()} XP to Level ${nl.n}!`:'🎉 You reached true mastery!';
-
-  // Streak
   document.getElementById('cal-streak').textContent=streak()+' Day Streak';
   renderCalendar();
-
-  // Today stats
-  const todayM = todayMins();
-  document.getElementById('ins-today-hrs').textContent =
-    todayM < 60 ? todayM+'m' : (todayM/60).toFixed(1)+'h';
-  document.getElementById('ins-today-sessions').textContent =
-    S.sessions.filter(s=>s.date===today()).length;
-
-  // Week chart + stats
   renderWeekChart();
-  renderWeekStats();
 
-  // All-time
-  const totalM = totalXP();
-  document.getElementById('ins-total-hrs').textContent = (totalM/60).toFixed(1)+'h';
-  document.getElementById('ins-sessions').textContent = S.sessions.length;
-
+  const wd=weekData();
+  const wm=wd.reduce((s,d)=>s+d.minutes,0);
+  document.getElementById('ins-hrs').textContent=(wm/60).toFixed(1);
+  document.getElementById('ins-sessions').textContent=S.sessions.length;
+  const best=wd.reduce((b,d)=>(!b||d.minutes>b.minutes)?d:b,null);
+  document.getElementById('ins-best').textContent=best&&best.minutes>0?best.day:'—';
+  const weekDates=wd.map(d=>d.date);
+  const ws=S.sessions.filter(s=>weekDates.includes(s.date)&&s.mood);
+  if(ws.length){const avg=ws.reduce((s,x)=>s+(MOOD_SCORE[x.mood]||60),0)/ws.length;document.getElementById('ins-mood').textContent=avg>=90?'😄':avg>=70?'😊':avg>=45?'😐':'😴';}
+  else document.getElementById('ins-mood').textContent='—';
   renderBadges();
-  initChartSwipe();
 }
+
+function renderCalendar() {
   const studied=new Set(S.sessions.map(s=>s.date));
   const t=today();
   const now=nowCN();
@@ -1494,6 +1351,21 @@ function renderAchievements() {
     h+=`<div class="${cls}">${d}</div>`;
   }
   document.getElementById('cal-grid').innerHTML=h;
+}
+
+function renderWeekChart() {
+  const data=weekData();
+  const max=Math.max(...data.map(d=>d.minutes),30);
+  document.getElementById('week-chart').innerHTML=data.map(d=>{
+    const h=Math.max(4,(d.minutes/max)*68);
+    let cls='bar';
+    if(!d.isFuture&&d.minutes>0) cls+=' has-data';
+    if(d.isToday) cls+=' today-bar';
+    return `<div class="bar-col"><div class="${cls}" style="height:${h}px"></div></div>`;
+  }).join('');
+  document.getElementById('week-days').innerHTML=data.map(d=>
+    `<div class="bar-day${d.isToday?' today':''}">${d.day}</div>`
+  ).join('');
 }
 
 function renderBadges() {

@@ -139,11 +139,13 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
 .cal-day.today{background:var(--primary);color:white;font-weight:700}
 
 /* Week chart — bigger top radius */
-.week-chart{display:flex;gap:6px;align-items:flex-end;height:72px;margin-bottom:6px}
+.week-chart{display:flex;gap:6px;align-items:flex-end;height:88px;margin-bottom:6px}
 .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end}
 .bar{width:100%;border-radius:10px 10px 3px 3px;background:var(--s3);min-height:4px;transition:height .5s ease}
 .bar.has-data{background:linear-gradient(180deg,var(--primary-c),var(--primary))}
 .bar.today-bar{background:linear-gradient(180deg,#c4b5fd,var(--tertiary))}
+.bar-lbl{font-size:8px;font-weight:700;color:var(--text-2);text-align:center;margin-bottom:2px;line-height:1;min-height:10px}
+.bar-lbl.has-val{color:var(--primary)}
 .week-days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .bar-day{text-align:center;font-size:10px;font-weight:600;color:var(--text-2)}
 .bar-day.today{color:var(--primary)}
@@ -407,30 +409,50 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
       </div>
 
       <div class="card">
-        <p class="section-title">Study Insights</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <p class="section-title" style="margin:0">Study Insights</p>
+          <div style="display:flex;align-items:center;gap:4px">
+            <button class="icon-btn" id="week-prev-btn" onclick="shiftWeek(-1)" style="padding:4px"><span class="ms" style="font-size:18px">chevron_left</span></button>
+            <span id="week-label" style="font-size:11px;font-weight:700;color:var(--text-2);min-width:64px;text-align:center">This Week</span>
+            <button class="icon-btn" id="week-next-btn" onclick="shiftWeek(1)" style="padding:4px"><span class="ms" style="font-size:18px">chevron_right</span></button>
+          </div>
+        </div>
         <div class="week-chart" id="week-chart"></div>
         <div class="week-days" id="week-days"></div>
         <div style="height:12px"></div>
+        <!-- Today's stats row -->
+        <div style="display:flex;gap:10px;margin-bottom:12px">
+          <div class="stat-card" style="flex:1">
+            <p class="stat-label">Today Focus</p>
+            <p class="stat-value"><span id="ins-today-hrs">0.0</span>h</p>
+            <p style="font-size:10px;color:var(--text-2)">today</p>
+          </div>
+          <div class="stat-card" style="flex:1">
+            <p class="stat-label">Today Sessions</p>
+            <p class="stat-value" id="ins-today-sessions">0</p>
+            <p style="font-size:10px;color:var(--text-2)">today</p>
+          </div>
+        </div>
         <div class="stat-grid">
           <div class="stat-card">
             <p class="stat-label">Focus Time</p>
             <p class="stat-value"><span id="ins-hrs">0</span>h</p>
-            <p style="font-size:10px;color:var(--text-2)">this week</p>
+            <p style="font-size:10px;color:var(--text-2)" id="ins-week-label">this week</p>
           </div>
           <div class="stat-card">
-            <p class="stat-label">Total Sessions</p>
+            <p class="stat-label">Sessions</p>
             <p class="stat-value" id="ins-sessions">0</p>
-            <p style="font-size:10px;color:var(--text-2)">logged</p>
+            <p style="font-size:10px;color:var(--text-2)" id="ins-sessions-label">this week</p>
           </div>
           <div class="stat-card">
             <p class="stat-label">Best Day</p>
             <p class="stat-value" id="ins-best">—</p>
-            <p style="font-size:10px;color:var(--text-2)">this week</p>
+            <p style="font-size:10px;color:var(--text-2)" id="ins-best-label">this week</p>
           </div>
           <div class="stat-card">
             <p class="stat-label">Avg Mood</p>
             <p class="stat-value" id="ins-mood">—</p>
-            <p style="font-size:10px;color:var(--text-2)">this week</p>
+            <p style="font-size:10px;color:var(--text-2)" id="ins-mood-label">this week</p>
           </div>
         </div>
       </div>
@@ -699,18 +721,37 @@ function streak() {
 }
 
 // Week from Mon to Sun (UTC+8), always 7 days Mon→Sun of current week
+let weekOffset = 0; // 0 = current week, -1 = last week, etc.
+
+function shiftWeek(dir) {
+  weekOffset += dir;
+  if(weekOffset > 0) weekOffset = 0; // can't go to future
+  renderWeekChart();
+  renderInsightsStats();
+  // update nav buttons
+  document.getElementById('week-next-btn').style.opacity = weekOffset === 0 ? '0.3' : '1';
+  document.getElementById('week-next-btn').disabled = weekOffset === 0;
+  const lbl = document.getElementById('week-label');
+  if(weekOffset === 0) lbl.textContent = 'This Week';
+  else if(weekOffset === -1) lbl.textContent = 'Last Week';
+  else lbl.textContent = `${-weekOffset}w ago`;
+}
+
 function weekData() {
   const now = nowCN();
   const dow = now.getUTCDay(); // 0=Sun,1=Mon,...,6=Sat
   const daysFromMon = dow === 0 ? 6 : dow - 1; // Mon=0...Sun=6
+  // Shift to the Monday of the target week
+  const mondayOffset = -daysFromMon + weekOffset * 7;
   const r = [];
   const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   for(let i=0; i<7; i++) {
-    const offset = i - daysFromMon; // negative = past, 0 = today if today is same day
+    const offset = mondayOffset + i;
     const d = new Date(now.getTime() + offset*86400000);
     const ds = d.toISOString().split('T')[0];
     const mins = S.sessions.filter(s=>s.date===ds).reduce((s,x)=>s+x.minutes,0);
-    r.push({date:ds, day:DAY_NAMES[d.getUTCDay()], minutes:mins, isToday:ds===today(), isFuture: offset>0});
+    const isFutureDay = offset > 0;
+    r.push({date:ds, day:DAY_NAMES[d.getUTCDay()], minutes:mins, isToday:ds===today(), isFuture: isFutureDay});
   }
   return r;
 }
@@ -1318,18 +1359,41 @@ function renderAchievements() {
   document.getElementById('cal-streak').textContent=streak()+' Day Streak';
   renderCalendar();
   renderWeekChart();
+  renderInsightsStats();
+  renderBadges();
+}
 
+function renderInsightsStats() {
+  // Today stats (always current day, never shifts)
+  const todayS = S.sessions.filter(s=>s.date===today());
+  document.getElementById('ins-today-hrs').textContent=(todayS.reduce((s,x)=>s+x.minutes,0)/60).toFixed(1);
+  document.getElementById('ins-today-sessions').textContent=todayS.length;
+
+  // Week stats (shifts with weekOffset)
   const wd=weekData();
   const wm=wd.reduce((s,d)=>s+d.minutes,0);
   document.getElementById('ins-hrs').textContent=(wm/60).toFixed(1);
-  document.getElementById('ins-sessions').textContent=S.sessions.length;
+
+  const weekDates=new Set(wd.map(d=>d.date));
+  const weekSessions=S.sessions.filter(s=>weekDates.has(s.date));
+  document.getElementById('ins-sessions').textContent=weekSessions.length;
+
   const best=wd.reduce((b,d)=>(!b||d.minutes>b.minutes)?d:b,null);
   document.getElementById('ins-best').textContent=best&&best.minutes>0?best.day:'—';
-  const weekDates=wd.map(d=>d.date);
-  const ws=S.sessions.filter(s=>weekDates.includes(s.date)&&s.mood);
+
+  const ws=weekSessions.filter(s=>s.mood);
   if(ws.length){const avg=ws.reduce((s,x)=>s+(MOOD_SCORE[x.mood]||60),0)/ws.length;document.getElementById('ins-mood').textContent=avg>=90?'😄':avg>=70?'😊':avg>=45?'😐':'😴';}
   else document.getElementById('ins-mood').textContent='—';
-  renderBadges();
+
+  // Update sublabels for non-current weeks
+  const lbl = weekOffset===0 ? 'this week' : (weekOffset===-1 ? 'last week' : `${-weekOffset}w ago`);
+  ['ins-week-label','ins-sessions-label','ins-best-label','ins-mood-label'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.textContent=lbl;
+  });
+
+  // disable next button when on current week
+  const nextBtn=document.getElementById('week-next-btn');
+  if(nextBtn){nextBtn.style.opacity=weekOffset===0?'0.3':'1';nextBtn.disabled=weekOffset===0;}
 }
 
 function renderCalendar() {
@@ -1356,12 +1420,20 @@ function renderCalendar() {
 function renderWeekChart() {
   const data=weekData();
   const max=Math.max(...data.map(d=>d.minutes),30);
+  const BAR_AREA = 68; // px for bar itself, label sits above
   document.getElementById('week-chart').innerHTML=data.map(d=>{
-    const h=Math.max(4,(d.minutes/max)*68);
+    const h=Math.max(4,(d.minutes/max)*BAR_AREA);
     let cls='bar';
     if(!d.isFuture&&d.minutes>0) cls+=' has-data';
     if(d.isToday) cls+=' today-bar';
-    return `<div class="bar-col"><div class="${cls}" style="height:${h}px"></div></div>`;
+    let lbl='';
+    if(!d.isFuture && d.minutes>0) {
+      const txt = d.minutes>=60 ? (d.minutes/60).toFixed(1)+'h' : d.minutes+'m';
+      lbl=`<div class="bar-lbl has-val">${txt}</div>`;
+    } else {
+      lbl=`<div class="bar-lbl"></div>`;
+    }
+    return `<div class="bar-col">${lbl}<div class="${cls}" style="height:${h}px"></div></div>`;
   }).join('');
   document.getElementById('week-days').innerHTML=data.map(d=>
     `<div class="bar-day${d.isToday?' today':''}">${d.day}</div>`

@@ -419,6 +419,21 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
         </div>
         <div class="week-chart" id="week-chart"></div>
         <div class="week-days" id="week-days"></div>
+        <div style="height:16px"></div>
+
+        <!-- Month bar chart -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:4px">
+            <button class="icon-btn" id="month-prev-btn" onclick="shiftMonth(-1)" style="padding:4px"><span class="ms" style="font-size:18px">chevron_left</span></button>
+            <span id="month-label" style="font-size:11px;font-weight:700;color:var(--text-2);min-width:72px;text-align:center">This Month</span>
+            <button class="icon-btn" id="month-next-btn" onclick="shiftMonth(1)" style="padding:4px"><span class="ms" style="font-size:18px">chevron_right</span></button>
+          </div>
+          <button class="icon-btn" onclick="openYearView()" style="padding:4px;background:rgba(75,90,162,.08);border-radius:10px" title="Year View">
+            <span class="ms" style="font-size:18px;color:var(--primary)">bar_chart</span>
+          </button>
+        </div>
+        <div class="week-chart" id="month-chart" style="height:72px"></div>
+        <div id="month-days" style="display:flex;justify-content:space-between;margin-top:4px"></div>
         <div style="height:12px"></div>
         <!-- Today's stats row -->
         <div style="display:flex;gap:10px;margin-bottom:12px">
@@ -444,16 +459,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
             <p class="stat-value" id="ins-sessions">0</p>
             <p style="font-size:10px;color:var(--text-2)" id="ins-sessions-label">this week</p>
           </div>
-          <div class="stat-card">
-            <p class="stat-label">Best Day</p>
-            <p class="stat-value" id="ins-best">—</p>
-            <p style="font-size:10px;color:var(--text-2)" id="ins-best-label">this week</p>
-          </div>
-          <div class="stat-card">
-            <p class="stat-label">Avg Mood</p>
-            <p class="stat-value" id="ins-mood">—</p>
-            <p style="font-size:10px;color:var(--text-2)" id="ins-mood-label">this week</p>
-          </div>
+
         </div>
       </div>
 
@@ -554,6 +560,30 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- Year View Overlay -->
+<div id="year-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);z-index:300;display:none;align-items:center;justify-content:center">
+  <div id="year-sheet" style="background:var(--s0);border-radius:24px;width:90vw;max-width:560px;padding:22px 20px 28px;box-shadow:0 24px 80px rgba(0,0,0,.18)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+      <div>
+        <p style="font-family:'Manrope',sans-serif;font-size:18px;font-weight:800;color:var(--text)">Year at a Glance</p>
+        <p id="year-title-label" style="font-size:11px;font-weight:600;color:var(--text-2);margin-top:2px">Daily Study Hours</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px">
+        <button class="icon-btn" id="year-prev-btn" onclick="shiftYear(-1)" style="padding:4px"><span class="ms" style="font-size:20px">chevron_left</span></button>
+        <span id="year-nav-label" style="font-size:12px;font-weight:700;color:var(--text-2);min-width:44px;text-align:center"></span>
+        <button class="icon-btn" id="year-next-btn" onclick="shiftYear(1)" style="padding:4px"><span class="ms" style="font-size:20px">chevron_right</span></button>
+        <button class="icon-btn" onclick="closeYearView()" style="margin-left:6px"><span class="ms">close</span></button>
+      </div>
+    </div>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+      <div id="year-chart-wrap" style="min-width:480px">
+        <svg id="year-svg" width="100%" viewBox="0 0 480 180" xmlns="http://www.w3.org/2000/svg" style="display:block"></svg>
+        <div id="year-month-labels" style="display:flex;min-width:480px;padding:0 10px;margin-top:4px"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 // ═══ UTC+8 DATE HELPERS ═══
@@ -1359,6 +1389,7 @@ function renderAchievements() {
   document.getElementById('cal-streak').textContent=streak()+' Day Streak';
   renderCalendar();
   renderWeekChart();
+  renderMonthChart();
   renderInsightsStats();
   renderBadges();
 }
@@ -1379,21 +1410,196 @@ function renderInsightsStats() {
   document.getElementById('ins-sessions').textContent=weekSessions.length;
 
   const best=wd.reduce((b,d)=>(!b||d.minutes>b.minutes)?d:b,null);
-  document.getElementById('ins-best').textContent=best&&best.minutes>0?best.day:'—';
+  // best day element removed
 
   const ws=weekSessions.filter(s=>s.mood);
-  if(ws.length){const avg=ws.reduce((s,x)=>s+(MOOD_SCORE[x.mood]||60),0)/ws.length;document.getElementById('ins-mood').textContent=avg>=90?'😄':avg>=70?'😊':avg>=45?'😐':'😴';}
-  else document.getElementById('ins-mood').textContent='—';
+  // avg mood element removed
 
   // Update sublabels for non-current weeks
   const lbl = weekOffset===0 ? 'this week' : (weekOffset===-1 ? 'last week' : `${-weekOffset}w ago`);
-  ['ins-week-label','ins-sessions-label','ins-best-label','ins-mood-label'].forEach(id=>{
+  ['ins-week-label','ins-sessions-label'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.textContent=lbl;
   });
 
   // disable next button when on current week
   const nextBtn=document.getElementById('week-next-btn');
   if(nextBtn){nextBtn.style.opacity=weekOffset===0?'0.3':'1';nextBtn.disabled=weekOffset===0;}
+}
+
+// ═══ MONTH CHART ═══
+let monthOffset = 0; // 0=current month, -1=last month...
+
+function shiftMonth(dir) {
+  monthOffset += dir;
+  if(monthOffset > 0) monthOffset = 0;
+  renderMonthChart();
+  const now = nowCN();
+  const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + monthOffset, 1));
+  const lbl = document.getElementById('month-label');
+  if(monthOffset === 0) lbl.textContent = 'This Month';
+  else if(monthOffset === -1) lbl.textContent = 'Last Month';
+  else {
+    const MNAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    lbl.textContent = MNAMES[d.getUTCMonth()] + ' ' + d.getUTCFullYear();
+  }
+  const nextBtn = document.getElementById('month-next-btn');
+  if(nextBtn){ nextBtn.style.opacity = monthOffset===0?'0.3':'1'; nextBtn.disabled = monthOffset===0; }
+}
+
+function monthData() {
+  const now = nowCN();
+  const y = now.getUTCFullYear(), mo = now.getUTCMonth() + monthOffset;
+  const target = new Date(Date.UTC(y, mo, 1));
+  const tYear = target.getUTCFullYear(), tMo = target.getUTCMonth();
+  const daysInMonth = new Date(Date.UTC(tYear, tMo+1, 0)).getUTCDate();
+  const todayStr = today();
+  const result = [];
+  for(let d=1; d<=daysInMonth; d++) {
+    const ds = `${tYear}-${(tMo+1).toString().padStart(2,'0')}-${d.toString().padStart(2,'0')}`;
+    const mins = S.sessions.filter(s=>s.date===ds).reduce((s,x)=>s+x.minutes,0);
+    const isFuture = ds > todayStr;
+    result.push({date:ds, day:d, minutes:mins, isToday:ds===todayStr, isFuture});
+  }
+  return result;
+}
+
+function renderMonthChart() {
+  const data = monthData();
+  const max = Math.max(...data.map(d=>d.minutes), 30);
+  const BAR_AREA = 56;
+  const chart = document.getElementById('month-chart');
+  const daysEl = document.getElementById('month-days');
+  // Only show every 5th day label for space
+  const labelDays = new Set([1,5,10,15,20,25,data.length]);
+  chart.style.gap = '2px';
+  chart.innerHTML = data.map(d=>{
+    const h = Math.max(2, (d.minutes/max)*BAR_AREA);
+    let cls='bar';
+    if(!d.isFuture && d.minutes>0) cls+=' has-data';
+    if(d.isToday) cls+=' today-bar';
+    let lbl='';
+    if(!d.isFuture && d.minutes>0){
+      const txt = d.minutes>=60?(d.minutes/60).toFixed(1)+'h':d.minutes+'m';
+      lbl=`<div class="bar-lbl has-val" style="font-size:6px">${txt}</div>`;
+    } else {
+      lbl=`<div class="bar-lbl"></div>`;
+    }
+    return `<div class="bar-col">${lbl}<div class="${cls}" style="height:${h}px;border-radius:4px 4px 2px 2px"></div></div>`;
+  }).join('');
+  daysEl.innerHTML = data.map(d=>`<div style="flex:1;text-align:center;font-size:${labelDays.has(d.day)?'8':'0'}px;font-weight:600;color:${d.isToday?'var(--primary)':'var(--text-2)'};line-height:1">${labelDays.has(d.day)?d.day:''}</div>`).join('');
+}
+
+// ═══ YEAR LINE CHART ═══
+let yearOffset = 0;
+
+function openYearView() {
+  yearOffset = 0;
+  document.getElementById('year-overlay').style.display = 'flex';
+  renderYearChart();
+}
+function closeYearView() {
+  document.getElementById('year-overlay').style.display = 'none';
+}
+function shiftYear(dir) {
+  yearOffset += dir;
+  if(yearOffset > 0) yearOffset = 0;
+  renderYearChart();
+  const nextBtn = document.getElementById('year-next-btn');
+  if(nextBtn){ nextBtn.style.opacity = yearOffset===0?'0.3':'1'; nextBtn.disabled = yearOffset===0; }
+}
+
+function renderYearChart() {
+  const now = nowCN();
+  const targetYear = now.getUTCFullYear() + yearOffset;
+  document.getElementById('year-nav-label').textContent = targetYear;
+  const nextBtn = document.getElementById('year-next-btn');
+  if(nextBtn){ nextBtn.style.opacity = yearOffset===0?'0.3':'1'; nextBtn.disabled = yearOffset===0; }
+
+  // Build daily minutes for the year
+  const isLeap = (y)=>(y%4===0&&y%100!==0)||y%400===0;
+  const daysInYear = isLeap(targetYear)?366:365;
+  const startDate = new Date(Date.UTC(targetYear,0,1));
+  const todayStr = today();
+  const dailyData = [];
+  for(let i=0; i<daysInYear; i++){
+    const d = new Date(startDate.getTime() + i*86400000);
+    const ds = d.toISOString().split('T')[0];
+    if(ds > todayStr) break;
+    const mins = S.sessions.filter(s=>s.date===ds).reduce((s,x)=>s+x.minutes,0);
+    dailyData.push({ds, mo:d.getUTCMonth(), mins});
+  }
+
+  // SVG dimensions
+  const W=480, H=150, padL=28, padR=10, padT=10, padB=10;
+  const plotW = W-padL-padR, plotH = H-padT-padB;
+  const maxMins = Math.max(...dailyData.map(d=>d.mins), 60);
+  const n = dailyData.length;
+
+  if(n < 2){
+    document.getElementById('year-svg').innerHTML = `<text x="240" y="90" text-anchor="middle" font-size="13" fill="var(--text-2)">No data for ${targetYear} yet</text>`;
+    document.getElementById('year-month-labels').innerHTML='';
+    document.getElementById('year-title-label').textContent = `${targetYear} · Daily Study Hours`;
+    return;
+  }
+
+  // Build polyline points
+  const pts = dailyData.map((d,i)=>{
+    const x = padL + (i/(n-1))*plotW;
+    const y = padT + plotH - (d.mins/maxMins)*plotH;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+
+  // Build gradient area path
+  const areaPath = dailyData.map((d,i)=>{
+    const x = padL + (i/(n-1))*plotW;
+    const y = padT + plotH - (d.mins/maxMins)*plotH;
+    return (i===0?'M':'L')+x.toFixed(1)+','+y.toFixed(1);
+  }).join(' ')
+  + ` L${(padL+(n-1)/(n-1)*plotW).toFixed(1)},${(padT+plotH).toFixed(1)} L${padL},${(padT+plotH).toFixed(1)} Z`;
+
+  // Y axis labels
+  const maxH = (maxMins/60).toFixed(1);
+  const midH = (maxMins/120).toFixed(1);
+  const yLabels = [
+    {v: padT+2, lbl: maxH+'h'},
+    {v: padT+plotH/2, lbl: midH+'h'},
+    {v: padT+plotH, lbl: '0'},
+  ];
+  const yLblHtml = yLabels.map(l=>`<text x="${padL-4}" y="${l.v+4}" text-anchor="end" font-size="8" fill="var(--text-2)" font-family="Plus Jakarta Sans">${l.lbl}</text>`).join('');
+
+  // Month boundary lines + month index for labels
+  const monthStarts = []; // {mo, x}
+  dailyData.forEach((d,i)=>{
+    if(i===0 || dailyData[i-1].mo !== d.mo){
+      const x = padL + (i/(n-1))*plotW;
+      monthStarts.push({mo:d.mo, x});
+    }
+  });
+  const gridLines = monthStarts.map(m=>`<line x1="${m.x.toFixed(1)}" y1="${padT}" x2="${m.x.toFixed(1)}" y2="${padT+plotH}" stroke="var(--s3)" stroke-width="0.8"/>`).join('');
+
+  const svgContent = `
+    <defs>
+      <linearGradient id="yr-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--primary-c)" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="var(--primary-c)" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${gridLines}
+    <path d="${areaPath}" fill="url(#yr-grad)"/>
+    <polyline points="${pts}" fill="none" stroke="var(--primary)" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+    ${yLblHtml}
+  `;
+  document.getElementById('year-svg').innerHTML = svgContent;
+
+  // Month labels below chart
+  const MNAMES=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const labelWrap = document.getElementById('year-month-labels');
+  // Position labels proportionally
+  labelWrap.style.position = 'relative';
+  labelWrap.style.height = '14px';
+  labelWrap.innerHTML = monthStarts.map(m=>`<span style="position:absolute;left:${m.x}px;transform:translateX(-50%);font-size:8px;font-weight:700;color:var(--text-2);white-space:nowrap">${MNAMES[m.mo]}</span>`).join('');
+
+  document.getElementById('year-title-label').textContent = `${targetYear} · Daily Study Hours`;
 }
 
 function renderCalendar() {

@@ -200,8 +200,56 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
 /* blob */
 .blob{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:-1}
 
-/* file hidden */
-#avatar-file-input{display:none}
+/* ── Mizuki Chat Overlay ── */
+#chat-overlay{position:fixed;inset:0;z-index:250;display:none;flex-direction:column;transition:opacity .3s}
+#chat-overlay.open{display:flex}
+
+.chat-bg{position:absolute;inset:0;z-index:0;transition:background .4s}
+.chat-bg-1{background:linear-gradient(160deg,#e8edff 0%,#d2b6ee 100%)}
+.chat-bg-2{background:linear-gradient(160deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%)}
+.chat-bg-3{background:linear-gradient(160deg,#fce4ec 0%,#f8bbd0 50%,#e1bee7 100%)}
+.chat-bg-4{background:linear-gradient(160deg,#e0f7fa 0%,#b2ebf2 50%,#e8f5e9 100%)}
+.chat-bg-5{background:linear-gradient(160deg,#1b1b1b 0%,#2d2d2d 100%)}
+.chat-bg-img{background-size:cover;background-position:center}
+
+#chat-header{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:52px 20px 14px;background:rgba(255,255,255,.12);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.15)}
+#chat-header-name{font-family:'Manrope',sans-serif;font-size:17px;font-weight:800;color:white;text-shadow:0 1px 6px rgba(0,0,0,.2)}
+.chat-hdr-btn{background:rgba(255,255,255,.2);border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;transition:background .2s}
+.chat-hdr-btn:active{background:rgba(255,255,255,.35)}
+
+#chat-messages{flex:1;overflow-y:auto;padding:16px 16px 8px;display:flex;flex-direction:column;gap:10px;position:relative;z-index:2;-webkit-overflow-scrolling:touch}
+#chat-messages::-webkit-scrollbar{display:none}
+
+.msg-row{display:flex;align-items:flex-end;gap:8px;animation:msgIn .25s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg-row.user{flex-direction:row-reverse}
+.msg-avatar-sm{width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#e8edff,#d2b6ee);display:flex;align-items:center;justify-content:center;font-size:14px;border:1.5px solid rgba(255,255,255,.4)}
+.msg-avatar-sm img{width:100%;height:100%;object-fit:cover}
+.msg-bubble{max-width:72%;padding:10px 14px;border-radius:18px;font-size:14px;font-weight:500;line-height:1.5;word-break:break-word}
+.msg-bubble.ai{background:rgba(255,255,255,.88);color:#2d3338;border-bottom-left-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.msg-bubble.user{background:linear-gradient(135deg,var(--primary),var(--primary-c));color:white;border-bottom-right-radius:4px;box-shadow:0 2px 12px rgba(75,90,162,.3)}
+.msg-bubble.typing{opacity:.7}
+.typing-dots{display:flex;gap:4px;align-items:center;height:18px}
+.typing-dots span{width:6px;height:6px;background:var(--text-2);border-radius:50%;animation:dotBounce 1.2s infinite}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes dotBounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+
+#chat-input-area{position:relative;z-index:2;padding:10px 16px 32px;background:rgba(255,255,255,.12);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,.15);display:flex;gap:8px;align-items:flex-end}
+#chat-input{flex:1;background:rgba(255,255,255,.88);border:none;border-radius:22px;padding:11px 16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;color:var(--text);outline:none;resize:none;max-height:100px;line-height:1.4;-webkit-overflow-scrolling:touch}
+#chat-send-btn{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-c));border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;box-shadow:0 4px 12px rgba(75,90,162,.3);transition:transform .15s}
+#chat-send-btn:active{transform:scale(.92)}
+
+/* Background picker panel */
+#bg-picker{position:absolute;top:54px;right:16px;z-index:10;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-radius:20px;padding:14px;box-shadow:0 8px 32px rgba(0,0,0,.18);display:none;width:220px}
+#bg-picker.open{display:block}
+.bg-picker-title{font-size:11px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.bg-swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:10px}
+.bg-swatch{width:34px;height:34px;border-radius:10px;border:2px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s}
+.bg-swatch:active{transform:scale(.9)}
+.bg-swatch.active{border-color:var(--primary)}
+.bg-upload-btn{width:100%;padding:8px;background:var(--s1);border:none;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:var(--primary);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+
 
 /* Reminder banner animations */
 @keyframes bannerSlideDown{from{opacity:0;transform:translateY(-24px)}to{opacity:1;transform:translateY(0)}}
@@ -225,7 +273,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
       <!-- Mizuki -->
       <div class="mizuki-wrap">
         <div class="mizuki-outer" style="position:relative">
-          <div class="bubble" id="mizuki-speech">...</div>
+          <div class="bubble" id="mizuki-speech" onclick="openChat()" style="cursor:pointer">...</div>
           <div class="mizuki-avatar" id="mizuki-avatar" onclick="openAvatarSheet()">
             <span id="avatar-emoji">🐱</span>
             <div class="mizuki-avatar-edit"><span class="ms" style="color:white;font-size:18px">edit</span></div>
@@ -237,7 +285,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
         </div>
         <p class="mizuki-sub">Your Study Companion</p>
       </div>
-      <input type="file" id="avatar-file-input" accept="image/*" onchange="handleAvatarUpload(event)">
+      <input type="file" id="avatar-file-input" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
 
       <button class="btn-primary" onclick="goStudy()" style="margin-bottom:18px">
         <span>I'm going to study now~</span>
@@ -555,6 +603,26 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
       <p style="font-size:11px;color:var(--text-2);margin-top:8px;line-height:1.5">Export saves all your sessions & settings as a .json file. Import to restore on a new device.</p>
     </div>
 
+    <div class="settings-section">
+      <span class="settings-label">Mizuki AI · Provider</span>
+      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+        <button class="dur-btn" id="ai-provider-anthropic" onclick="selectAiProvider('anthropic')">Anthropic</button>
+        <button class="dur-btn" id="ai-provider-gemini" onclick="selectAiProvider('gemini')">Gemini</button>
+        <button class="dur-btn" id="ai-provider-openai" onclick="selectAiProvider('openai')">OpenAI / 兼容</button>
+      </div>
+      <div style="position:relative;margin-bottom:10px">
+        <input class="field-input" type="password" id="s-ai-key" placeholder="Paste your API Key here" autocomplete="off" style="padding-right:44px">
+        <button onclick="toggleAiKeyVisibility()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--outline);padding:4px" id="ai-key-eye">
+          <span class="ms" style="font-size:18px">visibility</span>
+        </button>
+      </div>
+      <div id="ai-baseurl-wrap" style="display:none;margin-bottom:10px">
+        <input class="field-input" type="text" id="s-ai-baseurl" placeholder="Base URL (e.g. https://api.minimax.chat/v1)">
+      </div>
+      <input class="field-input" type="text" id="s-ai-model" placeholder="Model name (leave blank for default)">
+      <p style="font-size:10px;color:var(--text-2);margin-top:6px;line-height:1.5" id="ai-model-hint">Default: claude-sonnet-4-20250514</p>
+    </div>
+
     <button class="btn-primary" onclick="saveSettings()"><span>Save Settings</span><span class="ms">check</span></button>
   </div>
 </div>
@@ -585,6 +653,50 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
   </div>
 </div>
 
+<!-- Mizuki Chat Overlay -->
+<div id="chat-overlay">
+  <div class="chat-bg chat-bg-1" id="chat-bg-el"></div>
+
+  <div id="bg-picker">
+    <p class="bg-picker-title">Background</p>
+    <div class="bg-swatches">
+      <div class="bg-swatch active" style="background:linear-gradient(160deg,#e8edff,#d2b6ee)" onclick="setChatBg(1,this)"></div>
+      <div class="bg-swatch" style="background:linear-gradient(160deg,#1a1a2e,#0f3460)" onclick="setChatBg(2,this)"></div>
+      <div class="bg-swatch" style="background:linear-gradient(160deg,#fce4ec,#e1bee7)" onclick="setChatBg(3,this)"></div>
+      <div class="bg-swatch" style="background:linear-gradient(160deg,#e0f7fa,#e8f5e9)" onclick="setChatBg(4,this)"></div>
+      <div class="bg-swatch" style="background:linear-gradient(160deg,#1b1b1b,#2d2d2d)" onclick="setChatBg(5,this)"></div>
+    </div>
+    <button class="bg-upload-btn" onclick="document.getElementById('chat-bg-file').click()">
+      <span class="ms" style="font-size:14px">image</span> Custom image
+    </button>
+    <input type="file" id="chat-bg-file" accept="image/*" style="display:none" onchange="setChatBgImage(event)">
+  </div>
+
+  <div id="chat-header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="msg-avatar-sm" id="chat-hdr-avatar"><span id="chat-hdr-emoji">🐱</span></div>
+      <span id="chat-header-name">Mizuki</span>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="chat-hdr-btn" onclick="toggleBgPicker()" title="Change background">
+        <span class="ms" style="font-size:18px">palette</span>
+      </button>
+      <button class="chat-hdr-btn" onclick="closeChat()">
+        <span class="ms" style="font-size:18px">keyboard_arrow_down</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="chat-messages"></div>
+
+  <div id="chat-input-area">
+    <textarea id="chat-input" rows="1" placeholder="Say something to Mizuki~" oninput="autoResizeChatInput(this)" onkeydown="chatInputKeydown(event)"></textarea>
+    <button id="chat-send-btn" onclick="sendChatMessage()">
+      <span class="ms" style="font-size:18px;color:white">send</span>
+    </button>
+  </div>
+</div>
+
 <script>
 // ═══ UTC+8 DATE HELPERS ═══
 function nowCN() { return new Date(Date.now() + 8*3600*1000); }
@@ -606,6 +718,10 @@ const DEFAULT = {
   companionName:'Mizuki',
   noiseType:'brown',
   pomoDuration:25,
+  aiProvider:'anthropic',
+  aiKey:'',
+  aiModel:'',
+  aiBaseUrl:'',
 };
 let S = load();
 
@@ -1296,6 +1412,11 @@ function openSettings() {
   document.getElementById('s-notif').checked=S.notifEnabled;
   updateStyleBtns();
   renderSettingsReminders();
+  // AI config
+  selectAiProvider(S.aiProvider||'anthropic', true);
+  document.getElementById('s-ai-key').value=S.aiKey||'';
+  document.getElementById('s-ai-model').value=S.aiModel||'';
+  document.getElementById('s-ai-baseurl').value=S.aiBaseUrl||'';
   document.getElementById('settings-overlay').classList.add('open');
 }
 function closeSettingsOutside(e) {
@@ -1335,6 +1456,10 @@ function saveSettings() {
   const g=parseFloat(document.getElementById('s-goal').value);
   if(g>0) S.goalHours=g;
   S.notifEnabled=document.getElementById('s-notif').checked;
+  // AI config
+  S.aiKey=document.getElementById('s-ai-key').value.trim();
+  S.aiModel=document.getElementById('s-ai-model').value.trim();
+  S.aiBaseUrl=document.getElementById('s-ai-baseurl').value.trim();
   save();
   document.getElementById('settings-overlay').classList.remove('open');
   refreshAll(); showToast('✅ Settings saved!');
@@ -1722,12 +1847,348 @@ window.addEventListener('DOMContentLoaded', ()=>{
   // Render
   refreshAll();
 
-  // Mizuki refresh every 5min
-  setInterval(()=>{
-    if(document.getElementById('page-home').classList.contains('active'))
-      document.getElementById('mizuki-speech').textContent=getMizukiMsg();
-  },300000);
+  // Chat header sync
+  syncChatHeader();
 });
+
+// ═══ AI PROVIDER ═══
+const AI_DEFAULTS = {
+  anthropic: { model: 'claude-sonnet-4-20250514', hint: 'Default: claude-sonnet-4-20250514' },
+  gemini:    { model: 'gemini-2.5-flash-lite',    hint: 'Default: gemini-2.5-flash-lite' },
+  openai:    { model: 'gpt-4o-mini',              hint: 'Default: gpt-4o-mini · Also works for MiniMax, DeepSeek, etc.' },
+};
+
+function selectAiProvider(provider, silent) {
+  S.aiProvider = provider;
+  ['anthropic','gemini','openai'].forEach(p => {
+    document.getElementById('ai-provider-'+p)?.classList.toggle('active', p===provider);
+  });
+  document.getElementById('ai-baseurl-wrap').style.display = provider==='openai' ? 'block' : 'none';
+  document.getElementById('ai-model-hint').textContent = AI_DEFAULTS[provider]?.hint || '';
+  if (!silent) save();
+}
+
+function toggleAiKeyVisibility() {
+  const input = document.getElementById('s-ai-key');
+  const eye = document.getElementById('ai-key-eye').querySelector('.ms');
+  if (input.type === 'password') {
+    input.type = 'text';
+    eye.textContent = 'visibility_off';
+  } else {
+    input.type = 'password';
+    eye.textContent = 'visibility';
+  }
+}
+
+async function callAI(systemPrompt, messages) {
+  const provider = S.aiProvider || 'anthropic';
+  const key = S.aiKey || '';
+  const modelOverride = S.aiModel || '';
+
+  if (provider === 'anthropic') {
+    const model = modelOverride || AI_DEFAULTS.anthropic.model;
+    const headers = { 'Content-Type': 'application/json', 'anthropic-version': '2023-06-01' };
+    if (key) headers['x-api-key'] = key;
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ model, max_tokens: 1000, system: systemPrompt, messages })
+    });
+    const data = await res.json();
+    return data.content?.[0]?.text || '...';
+  }
+
+  if (provider === 'gemini') {
+    const model = modelOverride || AI_DEFAULTS.gemini.model;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+    // Convert messages to Gemini format
+    const contents = messages.map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }]
+    }));
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: systemPrompt }] },
+        contents
+      })
+    });
+    const data = await res.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || '...';
+  }
+
+  if (provider === 'openai') {
+    const model = modelOverride || AI_DEFAULTS.openai.model;
+    const baseUrl = (S.aiBaseUrl || 'https://api.openai.com/v1').replace(/\/$/, '');
+    const res = await fetch(`${baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${key}`
+      },
+      body: JSON.stringify({
+        model,
+        messages: [{ role: 'system', content: systemPrompt }, ...messages]
+      })
+    });
+    const data = await res.json();
+    return data.choices?.[0]?.message?.content || '...';
+  }
+
+  return '...';
+}
+
+
+const CHAT_KEY = 'lumina_chat';
+let chatHistory = [];
+let chatBgMode = 1;
+let chatBgCustom = null;
+let chatOpen = false;
+
+function loadChatHistory() {
+  try {
+    const raw = localStorage.getItem(CHAT_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      chatHistory = parsed.slice(-40); // keep last 40 messages
+    }
+  } catch(e) { chatHistory = []; }
+}
+
+function saveChatHistory() {
+  try {
+    localStorage.setItem(CHAT_KEY, JSON.stringify(chatHistory.slice(-40)));
+  } catch(e) {}
+}
+
+function syncChatHeader() {
+  const name = S.companionName || 'Mizuki';
+  document.getElementById('chat-header-name').textContent = name;
+  const emojiEl = document.getElementById('chat-hdr-emoji');
+  const avatarEl = document.getElementById('chat-hdr-avatar');
+  if (S.avatarImage) {
+    avatarEl.innerHTML = `<img src="${S.avatarImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+  } else {
+    avatarEl.innerHTML = `<span id="chat-hdr-emoji">${S.avatarEmoji || '🐱'}</span>`;
+  }
+}
+
+function openChat() {
+  loadChatHistory();
+  syncChatHeader();
+  chatOpen = true;
+  const overlay = document.getElementById('chat-overlay');
+  overlay.style.display = 'flex';
+  overlay.style.opacity = '0';
+  requestAnimationFrame(()=>{ overlay.style.opacity = '1'; });
+  renderChatMessages();
+  // If no history, send a greeting
+  if (chatHistory.length === 0) {
+    setTimeout(() => sendMizukiGreeting(), 400);
+  } else {
+    scrollChatToBottom();
+  }
+}
+
+function closeChat() {
+  chatOpen = false;
+  const overlay = document.getElementById('chat-overlay');
+  overlay.style.opacity = '0';
+  setTimeout(() => { overlay.style.display = 'none'; }, 280);
+  document.getElementById('bg-picker').classList.remove('open');
+}
+
+function toggleBgPicker() {
+  document.getElementById('bg-picker').classList.toggle('open');
+}
+
+function setChatBg(mode, el) {
+  chatBgMode = mode;
+  chatBgCustom = null;
+  const bgEl = document.getElementById('chat-bg-el');
+  bgEl.className = `chat-bg chat-bg-${mode}`;
+  bgEl.style.backgroundImage = '';
+  document.querySelectorAll('.bg-swatch').forEach(s => s.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('bg-picker').classList.remove('open');
+  try { localStorage.setItem('lumina_chat_bg', JSON.stringify({mode, custom: null})); } catch(e){}
+}
+
+function setChatBgImage(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    chatBgCustom = e.target.result;
+    const bgEl = document.getElementById('chat-bg-el');
+    bgEl.className = 'chat-bg chat-bg-img';
+    bgEl.style.backgroundImage = `url(${chatBgCustom})`;
+    document.querySelectorAll('.bg-swatch').forEach(s => s.classList.remove('active'));
+    document.getElementById('bg-picker').classList.remove('open');
+    try { localStorage.setItem('lumina_chat_bg', JSON.stringify({mode: 0, custom: chatBgCustom})); } catch(e){}
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderChatMessages() {
+  const container = document.getElementById('chat-messages');
+  const name = S.companionName || 'Mizuki';
+  const avatarHTML = S.avatarImage
+    ? `<img src="${S.avatarImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
+    : `<span>${S.avatarEmoji || '🐱'}</span>`;
+
+  container.innerHTML = chatHistory.map(msg => {
+    if (msg.role === 'assistant') {
+      return `<div class="msg-row">
+        <div class="msg-avatar-sm">${avatarHTML}</div>
+        <div class="msg-bubble ai">${escapeHtml(msg.content)}</div>
+      </div>`;
+    } else {
+      return `<div class="msg-row user">
+        <div class="msg-bubble user">${escapeHtml(msg.content)}</div>
+      </div>`;
+    }
+  }).join('');
+  scrollChatToBottom();
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+function scrollChatToBottom() {
+  const container = document.getElementById('chat-messages');
+  requestAnimationFrame(() => { container.scrollTop = container.scrollHeight; });
+}
+
+function appendChatBubble(role, content) {
+  const container = document.getElementById('chat-messages');
+  const name = S.companionName || 'Mizuki';
+  const avatarHTML = S.avatarImage
+    ? `<img src="${S.avatarImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
+    : `<span>${S.avatarEmoji || '🐱'}</span>`;
+  const div = document.createElement('div');
+  div.className = role === 'assistant' ? 'msg-row' : 'msg-row user';
+  div.innerHTML = role === 'assistant'
+    ? `<div class="msg-avatar-sm">${avatarHTML}</div><div class="msg-bubble ai">${escapeHtml(content)}</div>`
+    : `<div class="msg-bubble user">${escapeHtml(content)}</div>`;
+  container.appendChild(div);
+  scrollChatToBottom();
+}
+
+function showTypingIndicator() {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg-row';
+  div.id = 'typing-indicator';
+  const avatarHTML = S.avatarImage
+    ? `<img src="${S.avatarImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
+    : `<span>${S.avatarEmoji || '🐱'}</span>`;
+  div.innerHTML = `<div class="msg-avatar-sm">${avatarHTML}</div>
+    <div class="msg-bubble ai typing"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+  container.appendChild(div);
+  scrollChatToBottom();
+}
+
+function removeTypingIndicator() {
+  const el = document.getElementById('typing-indicator');
+  if (el) el.remove();
+}
+
+function buildSystemPrompt() {
+  const name = S.companionName || 'Mizuki';
+  const todayMinsVal = todayMins();
+  const todayHrs = (todayMinsVal / 60).toFixed(1);
+  const weekMins = weekData().reduce((s,d)=>s+d.minutes,0);
+  const weekHrs = (weekMins / 60).toFixed(1);
+  const streakDays = streak();
+  const sessionsToday = S.sessions.filter(s=>s.date===today()).length;
+  return `You are ${name}, a warm and encouraging study companion in the LUMINA study app. You care about the user's learning journey and wellbeing.
+
+Today's stats: ${todayHrs}h studied, ${sessionsToday} sessions. This week: ${weekHrs}h total. Current streak: ${streakDays} days.
+
+Personality: gentle, warm, occasionally playful. Keep replies concise (1-3 sentences usually). Use the user's data naturally when relevant. Speak in English unless the user writes in another language, then match their language. No markdown formatting.`;
+}
+
+async function sendMizukiGreeting() {
+  showTypingIndicator();
+  const systemPrompt = buildSystemPrompt();
+  const todayHrs = (todayMins() / 60).toFixed(1);
+  const greetPrompt = `Generate a warm, brief greeting for the user. Mention their study progress today (${todayHrs}h) naturally if nonzero. Be encouraging and friendly.`;
+  try {
+    const reply = await callAI(systemPrompt, [{ role: 'user', content: greetPrompt }]);
+    removeTypingIndicator();
+    chatHistory.push({ role: 'assistant', content: reply });
+    saveChatHistory();
+    appendChatBubble('assistant', reply);
+  } catch(e) {
+    removeTypingIndicator();
+    const fallback = 'Hi! I\'m here with you~ 🌟';
+    chatHistory.push({ role: 'assistant', content: fallback });
+    saveChatHistory();
+    appendChatBubble('assistant', fallback);
+  }
+}
+
+async function sendChatMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  input.style.height = 'auto';
+
+  chatHistory.push({ role: 'user', content: text });
+  saveChatHistory();
+  appendChatBubble('user', text);
+  showTypingIndicator();
+
+  const systemPrompt = buildSystemPrompt();
+  const messages = chatHistory.map(m => ({ role: m.role, content: m.content }));
+
+  try {
+    const reply = await callAI(systemPrompt, messages);
+    removeTypingIndicator();
+    chatHistory.push({ role: 'assistant', content: reply });
+    saveChatHistory();
+    appendChatBubble('assistant', reply);
+  } catch(e) {
+    removeTypingIndicator();
+    appendChatBubble('assistant', 'Sorry, something went wrong~ Try again?');
+  }
+}
+
+function autoResizeChatInput(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+}
+
+function chatInputKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+}
+
+// Load saved bg preference
+(function() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('lumina_chat_bg') || 'null');
+    if (saved) {
+      if (saved.custom) {
+        chatBgCustom = saved.custom;
+        const bgEl = document.getElementById('chat-bg-el');
+        bgEl.className = 'chat-bg chat-bg-img';
+        bgEl.style.backgroundImage = `url(${saved.custom})`;
+      } else if (saved.mode) {
+        chatBgMode = saved.mode;
+        document.getElementById('chat-bg-el').className = `chat-bg chat-bg-${saved.mode}`;
+        const swatches = document.querySelectorAll('.bg-swatch');
+        swatches.forEach((s,i) => s.classList.toggle('active', i+1 === saved.mode));
+      }
+    }
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>

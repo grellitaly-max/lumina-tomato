@@ -41,7 +41,7 @@ header{flex:0 0 auto;padding:14px 24px;display:flex;align-items:center;justify-c
 
 /* Nav */
 nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-items:center;padding:0 12px 8px;background:rgba(255,255,255,.9);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid rgba(75,90,162,.05);z-index:50}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 22px;border-radius:16px;cursor:pointer;transition:all .25s;color:var(--outline);font-size:11px;font-weight:600;border:none;background:none}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;border-radius:16px;cursor:pointer;transition:all .25s;color:var(--outline);font-size:10px;font-weight:600;border:none;background:none;flex:1}
 .nav-item.active{background:linear-gradient(135deg,rgba(75,90,162,.09),rgba(154,169,247,.13));color:var(--primary)}
 .nav-item .ms{font-size:22px}
 
@@ -373,7 +373,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
 .proj-icon-opt.selected{background:rgba(75,90,162,.1);border-color:rgba(75,90,162,.25)}
 .proj-edit-section{margin-bottom:20px}
 .proj-edit-label{font-size:11px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:8px}
-.proj-edit-input{width:100%;padding:14px 16px;background:var(--s3);border:none;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:var(--text);outline:none;transition:all .2s}
+.proj-edit-input{width:100%;padding:14px 16px;background:var(--s3);border:none;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:var(--text);outline:none;transition:all .2s;box-sizing:border-box}
 .proj-edit-input:focus{background:var(--s0);box-shadow:0 0 0 2px rgba(75,90,162,.2)}
 .proj-edit-textarea{width:100%;padding:14px 16px;background:var(--s3);border:none;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--text);outline:none;resize:none;transition:all .2s;line-height:1.5}
 .proj-edit-textarea:focus{background:var(--s0);box-shadow:0 0 0 2px rgba(75,90,162,.2)}
@@ -437,7 +437,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
           </div>
         </div>
         <div class="mizuki-name-wrap">
-          <input type="text" class="mizuki-name" id="companion-name" value="Mizuki" maxlength="16" onblur="saveCompanionName()" onkeydown="if(event.key==='Enter')this.blur()">
+          <input type="text" class="mizuki-name" id="companion-name" value="" maxlength="16" onblur="saveCompanionName()" onkeydown="if(event.key==='Enter')this.blur()">
           <span class="ms" style="font-size:14px;color:var(--outline);cursor:pointer" onclick="document.getElementById('companion-name').focus()">edit</span>
         </div>
         <p class="mizuki-sub">Your Study Companion</p>
@@ -759,7 +759,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
       <!-- Name -->
       <div class="proj-edit-section">
         <span class="proj-edit-label">Project Name</span>
-        <input class="proj-edit-input" id="proj-edit-name" placeholder="e.g. Goethe B2" type="text" />
+        <input class="proj-edit-input" id="proj-edit-name" placeholder="e.g. Learn Spanish" type="text" />
       </div>
       <!-- Description -->
       <div class="proj-edit-section">
@@ -769,7 +769,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
       <!-- Target date -->
       <div class="proj-edit-section">
         <span class="proj-edit-label">Target Date (optional)</span>
-        <input class="proj-edit-input" id="proj-edit-date" type="date" style="font-weight:500" />
+        <input class="proj-edit-input" id="proj-edit-date" type="date" style="font-weight:500;width:100%" />
       </div>
       <!-- Focus toggle -->
       <div class="proj-edit-section" style="margin-bottom:14px">
@@ -842,7 +842,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
       <div class="toggle-row" style="padding-top:0">
         <div>
           <p class="toggle-lbl">Notifications</p>
-          <p class="toggle-sub">Enable Mizuki's reminders</p>
+          <p class="toggle-sub">Enable reminders</p>
         </div>
         <label class="toggle">
           <input type="checkbox" id="s-notif" onchange="handleNotifToggle()">
@@ -865,7 +865,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
     </div>
 
     <div class="settings-section">
-      <span class="settings-label">Mizuki's Message Style</span>
+      <span class="settings-label">Message Style</span>
       <div style="display:flex;gap:8px">
         <button class="mood-btn" id="style-gentle" onclick="setStyle('gentle')" style="flex:1;justify-content:center">🌸 Gentle</button>
         <button class="mood-btn" id="style-playful" onclick="setStyle('playful')" style="flex:1;justify-content:center">🔥 Playful</button>
@@ -883,7 +883,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
     </div>
 
     <div class="settings-section">
-      <span class="settings-label">Mizuki AI · Provider</span>
+      <span class="settings-label">AI · Provider</span>
       <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
         <button class="dur-btn" id="ai-provider-anthropic" onclick="selectAiProvider('anthropic')">Anthropic</button>
         <button class="dur-btn" id="ai-provider-gemini" onclick="selectAiProvider('gemini')">Gemini</button>
@@ -954,7 +954,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
   <div id="chat-header">
     <div style="display:flex;align-items:center;gap:10px">
       <div class="msg-avatar-sm" id="chat-hdr-avatar"><span id="chat-hdr-emoji">🐱</span></div>
-      <span id="chat-header-name">Mizuki</span>
+      <span id="chat-header-name">Lumina</span>
     </div>
     <div style="display:flex;gap:8px">
       <button class="chat-hdr-btn" onclick="toggleBgPicker()" title="Change background">
@@ -969,7 +969,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
   <div id="chat-messages"></div>
 
   <div id="chat-input-area">
-    <textarea id="chat-input" rows="1" placeholder="Say something to Mizuki~" oninput="autoResizeChatInput(this)" onkeydown="chatInputKeydown(event)"></textarea>
+    <textarea id="chat-input" rows="1" placeholder="Say something~" oninput="autoResizeChatInput(this)" onkeydown="chatInputKeydown(event)"></textarea>
     <button id="chat-send-btn" onclick="sendChatMessage()">
       <span class="ms" style="font-size:18px;color:white">send</span>
     </button>
@@ -1017,7 +1017,7 @@ const DEFAULT = {
   msgStyle:'gentle',
   avatarEmoji:'🐱',
   avatarImage:null,
-  companionName:'Mizuki',
+  companionName:'Lumina',
   noiseType:'brown',
   pomoDuration:25,
   aiProvider:'anthropic',
@@ -1228,7 +1228,7 @@ function nextReminder() {
 // ═══ MIZUKI MESSAGES ═══
 const MSG = {
   gentle:{
-    morning_idle:  ['Good morning~ shall we start? ✨','A new day is waiting for you 🌸','Even 25 minutes makes Mizuki happy~'],
+    morning_idle:  ['Good morning~ shall we start? ✨','A new day is waiting for you 🌸','Even 25 minutes is progress~ ✨'],
     afternoon_idle:['Hey, haven\'t started yet? 🐱 Just a little, for me?','The afternoon light is perfect for focus 💙','Still time to make today beautiful~'],
     evening_idle:  ['It\'s getting late... even a little counts 🌙','Don\'t give up on today yet 💫','One small session? I\'ll stay with you 🐱'],
     started:       ['You started! That\'s everything 🌸','Here we go~ I\'m right beside you ✨','That first step was the hardest. Proud of you 💙'],
@@ -1237,12 +1237,12 @@ const MSG = {
     streak:        ['Day {n} in a row 🔥 incredible~','Streak: {n} days! Don\'t break it~ 🐱','{n} days of showing up~ you\'re a star 💫'],
   },
   playful:{
-    morning_idle:  ['Rise and study!! The books won\'t read themselves 🚀','Oh? Still in bed? BOOKS NOW 📚🔥','Mizuki is WAITING. Let\'s GO~'],
+    morning_idle:  ['Rise and study!! The books won\'t read themselves 🚀','Oh? Still in bed? BOOKS NOW 📚🔥','Your companion is WAITING. Let\'s GO~'],
     afternoon_idle:['Hello??? Have you forgotten about your goals?? 🐱','The afternoon is PERFECT and you\'re just... not studying?','OK bestie. Study. Now. For real. 😤'],
-    evening_idle:  ['Evening mode: PANIC STUDYING time 😂 let\'s go~','Last chance! Don\'t let today be a zero!!','Mizuki is giving you the disappointed cat stare 🐱...'],
-    started:       ['YESSS that\'s what I\'m talking about 🔥🔥','LET\'S GOOO~ Mizuki is HYPE','Okay you actually did it~ 🎉'],
+    evening_idle:  ['Evening mode: PANIC STUDYING time 😂 let\'s go~','Last chance! Don\'t let today be a zero!!','Giving you the disappointed stare 🐱...'],
+    started:       ['YESSS that\'s what I\'m talking about 🔥🔥','LET\'S GOOO~ let\'s do this 🔥','Okay you actually did it~ 🎉'],
     halfway:       ['HALFWAY! Do NOT quit on me now!! 💪','You\'re so close!!! Keep pushing!!!','Half done = no excuses to stop now 😤✨'],
-    goal_met:      ['GOAL CRUSHED!!! Mizuki is CELEBRATING 🎉🔥','You absolute legend! DAILY GOAL = DONE 🏆','This is the best day ever!! 🌟🔥'],
+    goal_met:      ['GOAL CRUSHED!!! Time to CELEBRATE 🎉🔥','You absolute legend! DAILY GOAL = DONE 🏆','This is the best day ever!! 🌟🔥'],
     streak:        ['DAY {n}!!! THE STREAK LIVES 🔥🔥🔥','{n} DAYS STRAIGHT!!! Nothing can stop you now!!','Streak at {n}~ we are SO not breaking this 🚀'],
   }
 };
@@ -1574,13 +1574,13 @@ function applyAvatarToDOM() {
     const img=av.querySelector('img');
     if(img)img.style.display='none';
   }
-  document.getElementById('companion-name').value = S.companionName||'Mizuki';
+  document.getElementById('companion-name').value = S.companionName||'Lumina';
 }
 
 function saveCompanionName() {
   const val = document.getElementById('companion-name').value.trim();
   if(val) S.companionName = val;
-  else { S.companionName='Mizuki'; document.getElementById('companion-name').value='Mizuki'; }
+  else { S.companionName='Lumina'; document.getElementById('companion-name').value='Lumina'; }
   save();
 }
 
@@ -1610,7 +1610,7 @@ function fireReminder() {
   showReminderBanner();
   // 3. Browser notification if permitted (bonus)
   if(S.notifEnabled && Notification.permission === 'granted') {
-    try { new Notification((S.companionName||'Mizuki')+' 🐱', {body: getMizukiMsg(), icon:''}); } catch(e){}
+    try { new Notification((S.companionName||'Lumina')+' 🐱', {body: getMizukiMsg(), icon:''}); } catch(e){}
   }
 }
 
@@ -1639,7 +1639,7 @@ function showReminderBanner() {
   if(existing) existing.remove();
 
   const msg = getMizukiMsg();
-  const name = S.companionName || 'Mizuki';
+  const name = S.companionName || 'Lumina';
 
   const banner = document.createElement('div');
   banner.id = 'reminder-banner';
@@ -2561,16 +2561,24 @@ function saveProject(){
   closeEditSheet();
   showToast(projEditingId ? '✅ Project updated' : '✅ Project created');
 
-  const overviewActive = document.getElementById('proj-view-overview').classList.contains('active');
-  if(overviewActive){
-    renderProjOverview();
-  } else if(projCurrentId && projEditingId===projCurrentId){
-    const updated = getProjects().find(p=>p.id===projCurrentId);
-    if(updated){
-      document.getElementById('proj-detail-title').textContent = updated.name;
-      document.getElementById('proj-detail-sub').textContent = updated.desc||'';
-      renderProjMetrics(updated);
-      renderProjBurndown(updated);
+  // Always refresh overview if projects tab is active
+  const projTabActive = document.getElementById('page-projects').classList.contains('active');
+  if(projTabActive){
+    const inOverview = document.getElementById('proj-view-overview').classList.contains('active');
+    const inDetail   = document.getElementById('proj-view-detail').classList.contains('active');
+    if(inOverview || !projEditingId){
+      // New project: go to overview and render; edit from overview: re-render
+      showProjView('overview');
+      renderProjOverview();
+    } else if(inDetail && projEditingId===projCurrentId){
+      // Edited the currently open project: refresh detail in place
+      const updated = getProjects().find(p=>p.id===projCurrentId);
+      if(updated){
+        document.getElementById('proj-detail-title').textContent = updated.name;
+        document.getElementById('proj-detail-sub').textContent = updated.desc||'';
+        renderProjMetrics(updated);
+        renderProjBurndown(updated);
+      }
     }
   }
 }
@@ -2594,15 +2602,10 @@ function escHtml(s){
 function initDefaultProjects(){
   if(!S.projects){
     S.projects=[{
-      id:genProjId(), name:'Goethe B2', desc:'5-month prep · 新求精 Book 1 & 2',
-      icon:'📚', focus:true, createdAt:Date.now(), targetDate:'',
+      id:genProjId(), name:'My First Project', desc:'Click to view details · tap ✏️ to edit',
+      icon:'🎯', focus:false, createdAt:Date.now(), targetDate:'',
       tasks:[
-        {name:'Book 1 quick-scan: Units 1–7',  note:'LV + grammar drills',  dur:'14h', done:false},
-        {name:'Book 1 quick-scan: Units 8–14', note:'HV + grammar drills',  dur:'14h', done:false},
-        {name:'Book 2 deep-study: Units 15–22',note:'5-day cycle per unit', dur:'40h', done:false},
-        {name:'Book 2 deep-study: Units 23–28',note:'5-day cycle per unit', dur:'30h', done:false},
-        {name:'First mock exam',               note:'Full B2 simulation',   dur:'4h',  done:false},
-        {name:'Targeted review & C1 prep',     note:'Weak areas',           dur:'20h', done:false}
+        {name:'Example task — tap ✏️ to edit or ✓ to complete', note:'', dur:'1h', done:false}
       ]
     }];
     save();
@@ -2773,7 +2776,7 @@ function saveChatHistory() {
 }
 
 function syncChatHeader() {
-  const name = S.companionName || 'Mizuki';
+  const name = S.companionName || 'Lumina';
   document.getElementById('chat-header-name').textContent = name;
   const emojiEl = document.getElementById('chat-hdr-emoji');
   const avatarEl = document.getElementById('chat-hdr-avatar');
@@ -2891,7 +2894,7 @@ function removeTypingIndicator() {
 }
 
 function buildSystemPrompt() {
-  const name = S.companionName || 'Mizuki';
+  const name = S.companionName || 'Lumina';
   const todayMinsVal = todayMins();
   const todayHrs = (todayMinsVal / 60).toFixed(1);
   const weekMins = weekData().reduce((s,d)=>s+d.minutes,0);

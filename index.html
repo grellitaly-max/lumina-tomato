@@ -254,6 +254,163 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
 /* Reminder banner animations */
 @keyframes bannerSlideDown{from{opacity:0;transform:translateY(-24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes bannerSlideUp{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-20px)}}
+
+/* ── Utility classes ── */
+/* Typography */
+.u-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)}
+.u-sub{font-size:12px;color:var(--text-2);font-weight:500}
+.u-tiny{font-size:10px;color:var(--text-2)}
+.u-num{font-family:'Manrope',sans-serif;font-weight:800;color:var(--text)}
+.u-accent{font-size:12px;font-weight:700;color:var(--primary)}
+.u-bold{font-weight:700}
+/* Layout */
+.u-row{display:flex;align-items:center}
+.u-row-sb{display:flex;align-items:center;justify-content:space-between}
+.u-col{display:flex;flex-direction:column}
+.u-gap4{gap:4px}
+.u-gap6{gap:6px}
+.u-gap8{gap:8px}
+.u-gap10{gap:10px}
+.u-gap12{gap:12px}
+.u-gap14{gap:14px}
+.u-mb4{margin-bottom:4px}
+.u-mb8{margin-bottom:8px}
+.u-mb10{margin-bottom:10px}
+.u-mb12{margin-bottom:12px}
+.u-mb14{margin-bottom:14px}
+.u-mb18{margin-bottom:18px}
+.u-mb20{margin-bottom:20px}
+.u-mt4{margin-top:4px}
+.u-mt6{margin-top:6px}
+.u-mt8{margin-top:8px}
+.u-mt10{margin-top:10px}
+.u-flex1{flex:1}
+.u-tr{text-align:right}
+.u-tc{text-align:center}
+/* Reminder banner */
+.rem-banner{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;flex-direction:column;max-width:430px;margin:0 auto;pointer-events:none}
+.rem-banner-inner{margin:12px 16px 0;background:rgba(255,255,255,.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:22px;padding:16px 18px;box-shadow:0 12px 48px rgba(75,90,162,.18);display:flex;align-items:center;gap:14px;pointer-events:all;animation:bannerSlideDown .35s cubic-bezier(.22,1,.36,1);border:1px solid rgba(75,90,162,.08)}
+.rem-banner-avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#e8edff,#d2b6ee);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;font-size:32px}
+.rem-banner-body{flex:1;min-width:0}
+.rem-banner-name{font-family:'Manrope',sans-serif;font-size:13px;font-weight:800;color:var(--primary);margin-bottom:3px}
+.rem-banner-msg{font-size:13px;font-weight:600;color:var(--text);line-height:1.4}
+.rem-banner-close{background:none;border:none;cursor:pointer;padding:4px;color:var(--outline);flex-shrink:0;font-family:'Material Symbols Outlined';font-size:20px}
+.rem-banner-tail{margin:0 24px;height:6px;background:rgba(75,90,162,.08);border-radius:0 0 10px 10px}
+/* Year overlay inner */
+.year-sheet-inner{background:var(--s0);border-radius:24px;width:90vw;max-width:560px;padding:22px 20px 28px;box-shadow:0 24px 80px rgba(0,0,0,.18)}
+.year-hdr-title{font-family:'Manrope',sans-serif;font-size:18px;font-weight:800;color:var(--text)}
+/* Settings inline btn */
+.btn-inline{background:linear-gradient(135deg,var(--primary),var(--primary-c));color:white;border:none;border-radius:14px;padding:0 20px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans';font-size:14px;white-space:nowrap}
+.btn-ghost{width:100%;padding:11px;background:var(--s1);border:none;border-radius:14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;color:var(--text-2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+/* Upload avatar btn */
+.btn-upload{width:100%;padding:14px;background:var(--s1);border:none;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--text-2)}
+/* Export fallback overlay */
+.export-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:flex-end;justify-content:center}
+.export-sheet{background:white;border-radius:28px 28px 0 0;padding:24px 20px 40px;width:100%;max-width:430px;animation:slideUp .3s ease}
+.export-json{width:100%;height:120px;background:var(--s1);border:none;border-radius:14px;padding:12px;font-family:monospace;font-size:11px;color:var(--text);resize:none;outline:none}
+
+/* ═══ PROJECTS LAB ═══ */
+.proj-view{display:none;animation:fadeIn .22s ease}
+.proj-view.active{display:block}
+.proj-card{background:var(--s0);border-radius:24px;padding:22px;box-shadow:0 4px 32px rgba(45,51,56,.04);margin-bottom:14px;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+.proj-card:active{transform:scale(.98)}
+.proj-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+.proj-card-icon{width:44px;height:44px;border-radius:14px;background:rgba(75,90,162,.1);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.proj-card-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:rgba(168,56,54,.12);color:#a83836}
+.proj-card-title{font-family:'Manrope',sans-serif;font-size:19px;font-weight:800;color:var(--text);margin-bottom:2px}
+.proj-card-sub{font-size:12px;color:var(--text-2);font-weight:500}
+.proj-card-footer{display:flex;align-items:flex-end;justify-content:space-between;margin-top:14px}
+.proj-pct{font-family:'Manrope',sans-serif;font-size:30px;font-weight:800;line-height:1}
+.proj-pct-lbl{font-size:10px;color:var(--text-2);font-weight:600;margin-top:2px}
+.proj-tasks-count{text-align:right}
+.proj-tasks-num{font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;color:var(--text)}
+.proj-tasks-lbl{font-size:10px;color:var(--text-2);font-weight:600}
+.proj-progress-track{background:var(--s3);border-radius:99px;height:10px;overflow:hidden;margin-top:12px}
+.proj-progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--primary),var(--primary-c));transition:width .6s ease}
+.proj-add-card{border:2px dashed rgba(173,179,184,.4);border-radius:24px;padding:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:14px;min-height:130px}
+.proj-add-card:active{background:rgba(75,90,162,.03)}
+.proj-add-icon{width:48px;height:48px;background:var(--s2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:10px;color:var(--text-2)}
+.proj-add-title{font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:3px}
+.proj-add-sub{font-size:12px;color:var(--text-2)}
+.proj-detail-back{display:flex;align-items:center;gap:6px;color:var(--primary);font-size:13px;font-weight:700;cursor:pointer;margin-bottom:18px;border:none;background:none;padding:0}
+.proj-detail-back .ms{font-size:18px}
+.proj-metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.proj-metric-card{background:var(--s0);border-radius:20px;padding:16px;box-shadow:0 4px 20px rgba(45,51,56,.04);position:relative;overflow:hidden}
+.proj-metric-label{font-size:11px;color:var(--text-2);font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.proj-metric-label .ms{font-size:14px}
+.proj-metric-value{font-family:'Manrope',sans-serif;font-size:24px;font-weight:800;color:var(--text);line-height:1}
+.proj-metric-sub{font-size:11px;font-weight:600;margin-top:4px;color:var(--text-2)}
+.proj-metric-bar{width:100%;height:4px;background:var(--s3);border-radius:99px;overflow:hidden;margin-top:10px}
+.proj-metric-bar-fill{height:100%;border-radius:99px;transition:width .6s ease;background:linear-gradient(90deg,var(--primary),var(--primary-c))}
+.proj-task-item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid rgba(173,179,184,.1)}
+.proj-task-item:last-child{border-bottom:none}
+.proj-task-check{width:24px;height:24px;border-radius:50%;border:2px solid var(--outline);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:all .2s;margin-top:1px;background:none}
+.proj-task-check.done{background:var(--primary);border-color:var(--primary)}
+.proj-task-body{flex:1;min-width:0}
+.proj-task-name{font-size:14px;font-weight:600;color:var(--text);line-height:1.3}
+.proj-task-name.done{text-decoration:line-through;color:var(--text-2);opacity:.6}
+.proj-task-note{font-size:12px;color:var(--text-2);margin-top:2px}
+.proj-task-dur{font-size:11px;font-weight:700;color:var(--text-2);background:var(--s2);padding:3px 8px;border-radius:8px;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.proj-task-add{display:flex;align-items:center;gap:8px;padding:12px 4px;color:var(--primary);font-size:14px;font-weight:600;cursor:pointer;border:none;background:none;width:100%;border-radius:12px;transition:background .15s}
+.proj-task-add:active{background:var(--s1)}
+.proj-task-add .ms{font-size:18px}
+.proj-task-form{background:var(--s1);border-radius:16px;padding:14px;margin:8px 0 4px;display:none}
+.proj-task-form.open{display:block}
+.proj-task-form input{width:100%;padding:10px 12px;background:var(--s0);border:none;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--text);outline:none;margin-bottom:8px;transition:box-shadow .2s}
+.proj-task-form input:focus{box-shadow:0 0 0 2px rgba(75,90,162,.2)}
+.proj-task-form-row{display:flex;gap:8px}
+.proj-task-form-row input{margin-bottom:0}
+.proj-task-form-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+.proj-form-confirm{padding:9px 18px;background:var(--primary);color:white;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer}
+.proj-form-cancel{padding:9px 14px;background:var(--s3);color:var(--text-2);border:none;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer}
+.proj-edit-overlay{position:fixed;inset:0;background:rgba(0,0,0,.22);backdrop-filter:blur(4px);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.proj-edit-overlay.open{display:flex}
+.proj-edit-sheet{background:var(--s0);border-radius:28px 28px 0 0;padding:0 0 44px;width:100%;max-width:430px;max-height:90vh;display:flex;flex-direction:column;animation:slideUp .3s ease}
+.proj-edit-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-radius:28px 28px 0 0;flex-shrink:0;border-bottom:1px solid rgba(173,179,184,.1)}
+.proj-edit-body{overflow-y:auto;padding:18px 20px;flex:1}
+.proj-icon-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:8px}
+.proj-icon-opt{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:16px;background:var(--s1);border:2px solid transparent;cursor:pointer;font-size:22px;transition:all .15s}
+.proj-icon-opt.selected{background:rgba(75,90,162,.1);border-color:rgba(75,90,162,.25)}
+.proj-edit-section{margin-bottom:20px}
+.proj-edit-label{font-size:11px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:8px}
+.proj-edit-input{width:100%;padding:14px 16px;background:var(--s3);border:none;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:var(--text);outline:none;transition:all .2s}
+.proj-edit-input:focus{background:var(--s0);box-shadow:0 0 0 2px rgba(75,90,162,.2)}
+.proj-edit-textarea{width:100%;padding:14px 16px;background:var(--s3);border:none;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--text);outline:none;resize:none;transition:all .2s;line-height:1.5}
+.proj-edit-textarea:focus{background:var(--s0);box-shadow:0 0 0 2px rgba(75,90,162,.2)}
+.proj-delete-btn{width:100%;padding:14px;background:none;border:none;color:rgba(168,56,54,.5);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:color .2s;margin-top:4px}
+.proj-delete-btn:hover{color:#a83836}
+.proj-save-btn{padding:10px 22px;background:linear-gradient(135deg,var(--primary),var(--primary-c));color:white;border:none;border-radius:99px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:transform .15s}
+.proj-save-btn:active{transform:scale(.95)}
+.proj-close-btn{width:36px;height:36px;background:var(--s1);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-2)}
+.proj-progress-preview{background:rgba(75,90,162,.05);border-radius:20px;padding:16px;border:1px solid rgba(75,90,162,.06)}
+.proj-preview-pct{font-family:'Manrope',sans-serif;font-size:26px;font-weight:800;color:var(--primary)}
+
+/* Burndown chart */
+.proj-burndown-wrap{background:var(--s0);border-radius:24px;padding:20px;box-shadow:0 4px 32px rgba(45,51,56,.04);margin-bottom:14px}
+.proj-burndown-title{font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:2px}
+.proj-burndown-sub{font-size:12px;color:var(--text-2);margin-bottom:14px}
+.proj-burndown-legend{display:flex;gap:16px;margin-bottom:12px}
+.proj-burndown-legend-item{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--text-2)}
+.proj-burndown-dot{width:10px;height:10px;border-radius:50%}
+.proj-burndown-svg-wrap{position:relative;width:100%;overflow:hidden}
+.proj-burndown-svg-wrap svg{width:100%;display:block}
+.proj-pace-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700;margin-top:12px}
+
+/* Task inline edit */
+.proj-task-edit-form{background:var(--s1);border-radius:14px;padding:12px;margin-top:6px}
+.proj-task-edit-row{display:flex;gap:8px;margin-bottom:8px}
+.proj-task-edit-input{flex:1;padding:9px 12px;background:var(--s0);border:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--text);outline:none;transition:box-shadow .2s}
+.proj-task-edit-input:focus{box-shadow:0 0 0 2px rgba(75,90,162,.2)}
+.proj-task-dur-edit{max-width:76px}
+.proj-task-edit-actions{display:flex;gap:6px;justify-content:space-between;align-items:center}
+.proj-task-delete-btn{background:none;border:none;color:rgba(168,56,54,.5);font-size:12px;font-weight:700;cursor:pointer;padding:4px 8px}
+.proj-task-delete-btn:hover{color:#a83836}
+.proj-task-edit-btn{background:none;border:none;cursor:pointer;color:var(--outline);padding:4px;display:flex;border-radius:8px;transition:background .15s}
+.proj-task-edit-btn:hover{background:var(--s2);color:var(--primary)}
+
+/* Focus toggle on overview card */
+.proj-focus-toggle{position:absolute;top:14px;right:14px;background:none;border:none;cursor:pointer;padding:4px;border-radius:8px;transition:all .15s;z-index:2}
+.proj-focus-toggle:active{transform:scale(.9)}
 </style>
 </head>
 <body>
@@ -293,14 +450,14 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
       </button>
 
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="u-row-sb u-mb14">
           <p class="section-title" style="margin:0">Today's Status</p>
           <span class="pill pill-p">LIVE</span>
         </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="u-row-sb u-mb14">
           <div>
-            <p style="font-family:'Manrope';font-size:28px;font-weight:800;letter-spacing:-.02em"><span id="today-hrs">0.0</span><span style="font-size:13px;font-weight:500;color:var(--text-2)"> / <span id="goal-hrs-display">2</span> hrs</span></p>
-            <p style="font-size:12px;color:var(--text-2);font-weight:500">Daily Goal Progress</p>
+            <p class="u-num" style="font-size:28px;letter-spacing:-.02em"><span id="today-hrs">0.0</span><span class="u-sub" style="font-size:13px"> / <span id="goal-hrs-display">2</span> hrs</span></p>
+            <p class="u-sub">Daily Goal Progress</p>
           </div>
           <svg width="52" height="52" viewBox="0 0 36 36" style="transform:rotate(-90deg)">
             <circle cx="18" cy="18" r="14" fill="none" stroke="var(--s3)" stroke-width="3"/>
@@ -309,27 +466,27 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
         </div>
         <div class="stat-grid">
           <div class="stat-card">
-            <span class="ms" style="color:var(--tertiary);font-size:18px">local_fire_department</span>
-            <p class="stat-label" style="margin-top:4px">Streak</p>
+            <span class="ms u-mt4" style="color:var(--tertiary);font-size:18px">local_fire_department</span>
+            <p class="stat-label u-mt4">Streak</p>
             <p class="stat-value"><span id="home-streak">0</span> Days</p>
           </div>
           <div class="stat-card">
             <span class="ms" style="color:var(--secondary);font-size:18px">psychology</span>
-            <p class="stat-label" style="margin-top:4px">Mood Score</p>
+            <p class="stat-label u-mt4">Mood Score</p>
             <p class="stat-value" id="home-focus">—</p>
           </div>
         </div>
       </div>
 
       <div class="card-low">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <div class="u-row u-gap8 u-mb12">
           <span class="ms" style="color:var(--primary)">notifications_active</span>
           <p class="section-title" style="margin:0">Current Reminders</p>
         </div>
         <div id="reminders-home"></div>
       </div>
 
-      <p id="daily-quote" style="text-align:center;font-style:italic;color:var(--text-2);font-size:13px;padding:8px 20px 4px;line-height:1.7"></p>
+      <p id="daily-quote" class="u-sub" style="text-align:center;font-style:italic;padding:8px 20px 4px;line-height:1.7"></p>
     </div>
   </div>
 
@@ -338,7 +495,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
     <div style="position:relative;margin-bottom:14px">
       <div class="blob" style="width:160px;height:160px;background:rgba(154,169,247,.18);top:-30px;left:-40px"></div>
       <p class="page-title">Pomodoro</p>
-      <p style="color:var(--text-2);font-size:14px">Your space for deep focus.</p>
+      <p class="u-sub" style="font-size:14px">Your space for deep focus.</p>
     </div>
 
     <!-- Duration selector -->
@@ -376,16 +533,16 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
       </button>
     </div>
 
-    <p style="text-align:center;font-size:12px;color:var(--text-2);font-weight:600;margin-bottom:14px">
+    <p class="u-sub u-bold u-tc" style="margin-bottom:14px">
       Today's Pomodoros: <span id="pom-count" style="color:var(--primary)">0</span> 🍅
     </p>
 
     <!-- White Noise -->
     <div class="card" style="padding:16px">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <div class="u-row u-gap8 u-mb10">
         <span class="ms" style="color:var(--secondary);font-size:18px">wind_power</span>
         <p style="font-family:'Manrope';font-size:14px;font-weight:700">White Noise</p>
-        <span style="font-size:11px;color:var(--text-2);margin-left:auto">Plays when timer runs</span>
+        <span class="u-sub u-accent" style="margin-left:auto;font-size:11px;font-weight:500">Plays when timer runs</span>
       </div>
       <div class="noise-row">
         <button class="noise-btn" id="noise-off" onclick="setNoise('off')"><span class="ms">volume_off</span>Off</button>
@@ -397,9 +554,9 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
 
     <!-- Session Mood -->
     <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div class="u-row-sb u-mb12">
         <p class="section-title" style="margin:0">Session Mood</p>
-        <span style="font-size:11px;font-weight:600;color:var(--primary);opacity:.6">Optional</span>
+        <span class="u-label" style="color:var(--primary);opacity:.6">Optional</span>
       </div>
       <div class="mood-row">
         <button class="mood-btn" data-mood="focused" onclick="selectMood('focused')"><span class="ms">sentiment_very_satisfied</span>Focused</button>
@@ -413,7 +570,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
     <!-- Manual Log -->
     <div class="card-low">
       <p class="section-title">Manual Log</p>
-      <p style="font-size:12px;color:var(--text-2);margin-bottom:14px">Log offline study time.</p>
+      <p class="u-sub u-mb14">Log offline study time.</p>
       <div style="position:relative;margin-bottom:10px">
         <input class="field-input" type="number" id="manual-mins" placeholder="Enter minutes" min="1" max="720">
         <span style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:700;color:var(--outline);letter-spacing:.1em">MINS</span>
@@ -431,24 +588,24 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
 
       <div class="card">
         <p class="level-label">Your Progress · 12,000h Mastery Path</p>
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+        <div class="u-row-sb u-mb4">
           <div>
             <p class="level-num">Level <span id="cur-level">1</span></p>
             <p class="level-name-lbl" id="level-name">Initiate</p>
           </div>
-          <div style="text-align:right">
-            <p style="font-size:11px;font-weight:600;color:var(--text-2)">Next Level</p>
+          <div class="u-tr">
+            <p class="u-sub" style="font-size:11px;font-weight:600">Next Level</p>
             <p style="font-size:14px;font-weight:700;color:var(--primary)"><span id="xp-cur">0</span> / <span id="xp-next-lbl">1,000</span> XP</p>
           </div>
         </div>
-        <div class="progress-track" style="margin-bottom:8px"><div class="progress-fill" id="xp-bar" style="width:0%"></div></div>
-        <p style="font-size:12px;color:var(--text-2)" id="xp-msg">Keep going~</p>
+        <div class="progress-track u-mb8"><div class="progress-fill" id="xp-bar" style="width:0%"></div></div>
+        <p class="u-sub" id="xp-msg">Keep going~</p>
       </div>
 
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="u-row-sb">
           <p class="section-title" style="margin:0">Monthly Check-in</p>
-          <div style="display:flex;align-items:center;gap:4px">
+          <div class="u-row u-gap4">
             <span class="ms" style="color:var(--tertiary);font-size:16px">local_fire_department</span>
             <span style="font-size:13px;font-weight:700;color:var(--tertiary)" id="cal-streak">0 Days</span>
           </div>
@@ -457,9 +614,9 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
       </div>
 
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="u-row-sb u-mb12">
           <p class="section-title" style="margin:0">Study Insights</p>
-          <div style="display:flex;align-items:center;gap:4px">
+          <div class="u-row u-gap4">
             <button class="icon-btn" id="week-prev-btn" onclick="shiftWeek(-1)" style="padding:4px"><span class="ms" style="font-size:18px">chevron_left</span></button>
             <span id="week-label" style="font-size:11px;font-weight:700;color:var(--text-2);min-width:64px;text-align:center">This Week</span>
             <button class="icon-btn" id="week-next-btn" onclick="shiftWeek(1)" style="padding:4px"><span class="ms" style="font-size:18px">chevron_right</span></button>
@@ -470,8 +627,8 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
         <div style="height:16px"></div>
 
         <!-- Month bar chart -->
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div style="display:flex;align-items:center;gap:4px">
+        <div class="u-row-sb u-mb10">
+          <div class="u-row u-gap4">
             <button class="icon-btn" id="month-prev-btn" onclick="shiftMonth(-1)" style="padding:4px"><span class="ms" style="font-size:18px">chevron_left</span></button>
             <span id="month-label" style="font-size:11px;font-weight:700;color:var(--text-2);min-width:72px;text-align:center">This Month</span>
             <button class="icon-btn" id="month-next-btn" onclick="shiftMonth(1)" style="padding:4px"><span class="ms" style="font-size:18px">chevron_right</span></button>
@@ -485,47 +642,169 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
         <div style="height:12px"></div>
         <!-- Today's stats row -->
         <div style="display:flex;gap:10px;margin-bottom:12px">
-          <div class="stat-card" style="flex:1">
+          <div class="stat-card u-flex1">
             <p class="stat-label">Today Focus</p>
             <p class="stat-value"><span id="ins-today-hrs">0.0</span>h</p>
-            <p style="font-size:10px;color:var(--text-2)">today</p>
+            <p class="u-tiny">today</p>
           </div>
-          <div class="stat-card" style="flex:1">
+          <div class="stat-card u-flex1">
             <p class="stat-label">Today Sessions</p>
             <p class="stat-value" id="ins-today-sessions">0</p>
-            <p style="font-size:10px;color:var(--text-2)">today</p>
+            <p class="u-tiny">today</p>
           </div>
         </div>
         <div class="stat-grid">
           <div class="stat-card">
             <p class="stat-label">Focus Time</p>
             <p class="stat-value"><span id="ins-hrs">0</span>h</p>
-            <p style="font-size:10px;color:var(--text-2)" id="ins-week-label">this week</p>
+            <p class="u-tiny" id="ins-week-label">this week</p>
           </div>
           <div class="stat-card">
             <p class="stat-label">Sessions</p>
             <p class="stat-value" id="ins-sessions">0</p>
-            <p style="font-size:10px;color:var(--text-2)" id="ins-sessions-label">this week</p>
+            <p class="u-tiny" id="ins-sessions-label">this week</p>
           </div>
-
         </div>
       </div>
 
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="u-row-sb u-mb14">
           <p class="section-title" style="margin:0">Ethereal Badges</p>
-          <span style="font-size:12px;font-weight:700;color:var(--primary)" id="badge-count">0/6 Earned</span>
+          <span class="u-accent" id="badge-count">0/6 Earned</span>
         </div>
         <div class="badges-grid" id="badges-grid"></div>
       </div>
     </div>
   </div>
 
+  <!-- ═══ PAGE: PROJECTS ═══ -->
+  <div id="page-projects" class="page">
+
+    <!-- Sub-view: Overview -->
+    <div id="proj-view-overview" class="proj-view active">
+      <p class="page-title">Projects</p>
+      <p style="font-size:13px;color:var(--text-2);font-weight:500;margin-bottom:20px">Your goals, tracked beautifully.</p>
+      <div id="proj-cards-container"></div>
+      <!-- Add new card -->
+      <div class="proj-add-card" onclick="openEditSheet(null)">
+        <div class="proj-add-icon"><span class="ms">add</span></div>
+        <p class="proj-add-title">New Project</p>
+        <p class="proj-add-sub">Track a new goal or topic</p>
+      </div>
+    </div>
+
+    <!-- Sub-view: Detail -->
+    <div id="proj-view-detail" class="proj-view">
+      <button class="proj-detail-back" onclick="showProjView('overview')">
+        <span class="ms">arrow_back</span>All Projects
+      </button>
+      <div id="proj-detail-header" style="margin-bottom:16px">
+        <p class="page-title" id="proj-detail-title" style="font-size:28px">Project</p>
+        <p id="proj-detail-sub" style="font-size:13px;color:var(--text-2);margin-top:2px"></p>
+      </div>
+      <!-- Edit button row -->
+      <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
+        <button onclick="openEditSheet(projCurrentId)" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--s1);border:none;border-radius:99px;font-size:13px;font-weight:700;color:var(--primary);cursor:pointer">
+          <span class="ms" style="font-size:16px">edit</span>Edit
+        </button>
+      </div>
+      <!-- Metrics grid -->
+      <div class="proj-metric-grid" id="proj-detail-metrics"></div>
+      <!-- Burndown Chart -->
+      <div class="proj-burndown-wrap" id="proj-burndown-wrap"></div>
+      <!-- Tasks section -->
+      <div class="card" style="margin-bottom:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <p class="section-title" style="margin:0">Tasks</p>
+          <span id="proj-detail-task-count" style="font-size:12px;color:var(--text-2);font-weight:600"></span>
+        </div>
+        <p style="font-size:12px;color:var(--text-2);margin-bottom:14px">Tap ✓ to complete · ✏️ to edit</p>
+        <div id="proj-detail-tasks"></div>
+        <!-- Inline add task form -->
+        <div id="proj-task-form" class="proj-task-form">
+          <input id="proj-task-name-input" placeholder="Task name…" type="text" />
+          <div class="proj-task-form-row">
+            <input id="proj-task-note-input" placeholder="Note (optional)" type="text" />
+            <input id="proj-task-dur-input" placeholder="e.g. 45m / 2h" type="text" style="max-width:90px" />
+          </div>
+          <div class="proj-task-form-actions">
+            <button class="proj-form-cancel" onclick="closeTaskForm()">Cancel</button>
+            <button class="proj-form-confirm" onclick="confirmAddTask()">Add</button>
+          </div>
+        </div>
+        <button class="proj-task-add" onclick="openTaskForm()">
+          <span class="ms">add_circle</span>Add Task
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /page-projects -->
+
 </div><!-- /scroll-area -->
+
+<!-- ═══ EDIT PROJECT SHEET ═══ -->
+<div class="proj-edit-overlay" id="proj-edit-overlay" onclick="handleEditOverlayClick(event)">
+  <div class="proj-edit-sheet" id="proj-edit-sheet">
+    <div class="proj-edit-header">
+      <button class="proj-close-btn" onclick="closeEditSheet()"><span class="ms">close</span></button>
+      <p id="proj-edit-title-label" style="font-family:'Manrope',sans-serif;font-size:17px;font-weight:800;color:var(--primary)">Edit Project</p>
+      <button class="proj-save-btn" onclick="saveProject()">Save</button>
+    </div>
+    <div class="proj-edit-body">
+      <!-- Icon picker -->
+      <div class="proj-edit-section">
+        <span class="proj-edit-label">Icon</span>
+        <div class="proj-icon-grid" id="proj-icon-grid"></div>
+      </div>
+      <!-- Name -->
+      <div class="proj-edit-section">
+        <span class="proj-edit-label">Project Name</span>
+        <input class="proj-edit-input" id="proj-edit-name" placeholder="e.g. Goethe B2" type="text" />
+      </div>
+      <!-- Description -->
+      <div class="proj-edit-section">
+        <span class="proj-edit-label">Description & Goals</span>
+        <textarea class="proj-edit-textarea" id="proj-edit-desc" placeholder="What's this project about?" rows="3"></textarea>
+      </div>
+      <!-- Target date -->
+      <div class="proj-edit-section">
+        <span class="proj-edit-label">Target Date (optional)</span>
+        <input class="proj-edit-input" id="proj-edit-date" type="date" style="font-weight:500" />
+      </div>
+      <!-- Focus toggle -->
+      <div class="proj-edit-section" style="margin-bottom:14px">
+        <div class="toggle-row" style="padding:0">
+          <div>
+            <p class="toggle-lbl">Mark as Focus</p>
+            <p class="toggle-sub">Pins this project at the top</p>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="proj-edit-focus" />
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
+      </div>
+      <!-- Progress preview -->
+      <div class="proj-progress-preview" id="proj-edit-progress-wrap" style="display:none">
+        <p style="font-size:11px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">Current Progress</p>
+        <p class="proj-preview-pct" id="proj-edit-progress-pct">0%</p>
+        <div class="proj-progress-track" style="margin-top:10px;height:8px">
+          <div class="proj-progress-fill" id="proj-edit-progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <!-- Delete button (edit mode only) -->
+      <button class="proj-delete-btn" id="proj-delete-btn" onclick="deleteProject()" style="display:none">
+        Delete Project
+      </button>
+    </div>
+  </div>
+</div>
 
 <nav>
   <button class="nav-item active" id="nav-home" onclick="switchTab('home')"><span class="ms">home</span><span>Home</span></button>
   <button class="nav-item" id="nav-study" onclick="switchTab('study')"><span class="ms">science</span><span>Study Lab</span></button>
+  <button class="nav-item" id="nav-projects" onclick="switchTab('projects')"><span class="ms">insights</span><span>Projects</span></button>
   <button class="nav-item" id="nav-achievements" onclick="switchTab('achievements')"><span class="ms">military_tech</span><span>Achievements</span></button>
 </nav>
 
@@ -533,13 +812,13 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
 <div class="overlay" id="avatar-overlay">
   <div class="modal-sheet" style="padding-bottom:44px">
     <div class="modal-handle"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+    <div class="u-row-sb u-mb18">
       <p class="modal-title" style="margin:0">Choose Avatar</p>
       <button onclick="closeAvatarSheet()" class="icon-btn"><span class="ms">close</span></button>
     </div>
     <span class="settings-label">Preset Emojis</span>
-    <div class="emoji-grid" id="emoji-grid" style="margin-bottom:14px"></div>
-    <button onclick="document.getElementById('avatar-file-input').click()" style="width:100%;padding:14px;background:var(--s1);border:none;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--text-2)">
+    <div class="emoji-grid u-mb14" id="emoji-grid"></div>
+    <button class="btn-upload" onclick="document.getElementById('avatar-file-input').click()">
       <span class="ms" style="font-size:18px">upload</span>Upload your own photo
     </button>
   </div>
@@ -576,11 +855,11 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
     <div class="settings-section">
       <span class="settings-label">Reminder Times</span>
       <div id="s-reminders-list"></div>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <input class="field-input" type="time" id="s-new-time" style="flex:1">
-        <button onclick="addReminder()" style="background:linear-gradient(135deg,var(--primary),var(--primary-c));color:white;border:none;border-radius:14px;padding:0 20px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans';font-size:14px;white-space:nowrap">Add</button>
+      <div class="u-row u-gap8" style="margin-top:8px">
+        <input class="field-input u-flex1" type="time" id="s-new-time">
+        <button class="btn-inline" onclick="addReminder()">Add</button>
       </div>
-      <button onclick="document.getElementById('settings-overlay').classList.remove('open');setTimeout(fireReminder,400)" style="width:100%;margin-top:10px;padding:11px;background:var(--s1);border:none;border-radius:14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;color:var(--text-2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">
+      <button class="btn-ghost u-mt10" onclick="document.getElementById('settings-overlay').classList.remove('open');setTimeout(fireReminder,400)">
         <span class="ms" style="font-size:15px">notifications</span> Test Reminder Now
       </button>
     </div>
@@ -600,7 +879,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
         <button class="btn-data" onclick="document.getElementById('import-file').click()"><span class="ms">upload</span>Import Data</button>
       </div>
       <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
-      <p style="font-size:11px;color:var(--text-2);margin-top:8px;line-height:1.5">Export saves all your sessions & settings as a .json file. Import to restore on a new device.</p>
+      <p class="u-sub u-mt8" style="line-height:1.5">Export saves all your sessions & settings as a .json file. Import to restore on a new device.</p>
     </div>
 
     <div class="settings-section">
@@ -620,7 +899,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
         <input class="field-input" type="text" id="s-ai-baseurl" placeholder="Base URL (e.g. https://api.minimax.chat/v1)">
       </div>
       <input class="field-input" type="text" id="s-ai-model" placeholder="Model name (leave blank for default)">
-      <p style="font-size:10px;color:var(--text-2);margin-top:6px;line-height:1.5" id="ai-model-hint">Default: claude-sonnet-4-20250514</p>
+      <p class="u-sub u-mt6" style="line-height:1.5" id="ai-model-hint">Default: claude-sonnet-4-20250514</p>
     </div>
 
     <button class="btn-primary" onclick="saveSettings()"><span>Save Settings</span><span class="ms">check</span></button>
@@ -631,13 +910,13 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
 
 <!-- Year View Overlay -->
 <div id="year-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);z-index:300;display:none;align-items:center;justify-content:center">
-  <div id="year-sheet" style="background:var(--s0);border-radius:24px;width:90vw;max-width:560px;padding:22px 20px 28px;box-shadow:0 24px 80px rgba(0,0,0,.18)">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+  <div class="year-sheet-inner">
+    <div class="u-row-sb u-mb18">
       <div>
-        <p style="font-family:'Manrope',sans-serif;font-size:18px;font-weight:800;color:var(--text)">Year at a Glance</p>
-        <p id="year-title-label" style="font-size:11px;font-weight:600;color:var(--text-2);margin-top:2px">Daily Study Hours</p>
+        <p class="year-hdr-title">Year at a Glance</p>
+        <p id="year-title-label" class="u-sub u-mt4">Daily Study Hours</p>
       </div>
-      <div style="display:flex;align-items:center;gap:4px">
+      <div class="u-row u-gap4">
         <button class="icon-btn" id="year-prev-btn" onclick="shiftYear(-1)" style="padding:4px"><span class="ms" style="font-size:20px">chevron_left</span></button>
         <span id="year-nav-label" style="font-size:12px;font-weight:700;color:var(--text-2);min-width:44px;text-align:center"></span>
         <button class="icon-btn" id="year-next-btn" onclick="shiftYear(1)" style="padding:4px"><span class="ms" style="font-size:20px">chevron_right</span></button>
@@ -703,6 +982,29 @@ function nowCN() { return new Date(Date.now() + 8*3600*1000); }
 function today() {
   const d = nowCN();
   return d.toISOString().split('T')[0];
+}
+
+// ═══ HELPER: avatar HTML ═══
+function buildAvatarHTML(size) {
+  if (S.avatarImage) return `<img src="${S.avatarImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+  return `<span style="${size ? 'font-size:'+size+'px' : ''}">${S.avatarEmoji || '🐱'}</span>`;
+}
+
+// ═══ HELPER: build a single bar column ═══
+function buildBarCol(minutes, max, barArea, isToday, isFuture, borderRadius) {
+  const h = Math.max(4, (minutes / max) * barArea);
+  let cls = 'bar';
+  if (!isFuture && minutes > 0) cls += ' has-data';
+  if (isToday) cls += ' today-bar';
+  let lbl = '';
+  if (!isFuture && minutes > 0) {
+    const txt = minutes >= 60 ? (minutes/60).toFixed(1)+'h' : minutes+'m';
+    lbl = `<div class="bar-lbl has-val">${txt}</div>`;
+  } else {
+    lbl = `<div class="bar-lbl"></div>`;
+  }
+  const radStyle = borderRadius ? `border-radius:${borderRadius}` : '';
+  return `<div class="bar-col">${lbl}<div class="${cls}" style="height:${h}px;${radStyle}"></div></div>`;
 }
 
 // ═══ STATE ═══
@@ -773,21 +1075,20 @@ function exportViaLink(json, filename) {
 }
 
 function showExportFallback(json) {
-  // Only shows if the download didn't work (e.g. iOS Safari)
   const existing = document.getElementById('export-fallback-overlay');
   if(existing) existing.remove();
 
   const overlay = document.createElement('div');
   overlay.id = 'export-fallback-overlay';
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:flex-end;justify-content:center';
+  overlay.className = 'export-overlay';
   overlay.innerHTML = `
-    <div style="background:white;border-radius:28px 28px 0 0;padding:24px 20px 40px;width:100%;max-width:430px;animation:slideUp .3s ease">
-      <div style="width:36px;height:4px;background:#dee3e9;border-radius:99px;margin:0 auto 16px"></div>
-      <p style="font-family:'Manrope',sans-serif;font-size:18px;font-weight:800;margin-bottom:6px">Export Data</p>
-      <p style="font-size:12px;color:#5a6065;margin-bottom:12px">Copy this JSON and save it somewhere safe 💾</p>
-      <textarea readonly style="width:100%;height:120px;background:#f1f4f8;border:none;border-radius:14px;padding:12px;font-family:monospace;font-size:11px;color:#2d3338;resize:none;outline:none">${json}</textarea>
-      <button onclick="copyExportData()" style="width:100%;margin-top:10px;padding:15px;background:linear-gradient(135deg,#4b5aa2,#9aa9f7);color:white;border:none;border-radius:20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer">Copy to Clipboard</button>
-      <button onclick="document.getElementById('export-fallback-overlay').remove()" style="width:100%;margin-top:8px;padding:12px;background:#f1f4f8;color:#5a6065;border:none;border-radius:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer">Close</button>
+    <div class="export-sheet">
+      <div class="modal-handle"></div>
+      <p class="modal-title u-mb4" style="font-size:18px">Export Data</p>
+      <p class="u-sub u-mb12">Copy this JSON and save it somewhere safe 💾</p>
+      <textarea class="export-json" readonly>${json}</textarea>
+      <button class="btn-primary u-mt10" onclick="copyExportData()">Copy to Clipboard</button>
+      <button class="btn-secondary" style="margin-top:8px" onclick="document.getElementById('export-fallback-overlay').remove()">Close</button>
     </div>`;
   document.body.appendChild(overlay);
 }
@@ -927,7 +1228,7 @@ function nextReminder() {
 // ═══ MIZUKI MESSAGES ═══
 const MSG = {
   gentle:{
-    morning_idle:  ['Good morning~ shall we start? ✨','A new day is waiting for you 🌸','Even 25 minutes makes me happy~'],
+    morning_idle:  ['Good morning~ shall we start? ✨','A new day is waiting for you 🌸','Even 25 minutes makes Mizuki happy~'],
     afternoon_idle:['Hey, haven\'t started yet? 🐱 Just a little, for me?','The afternoon light is perfect for focus 💙','Still time to make today beautiful~'],
     evening_idle:  ['It\'s getting late... even a little counts 🌙','Don\'t give up on today yet 💫','One small session? I\'ll stay with you 🐱'],
     started:       ['You started! That\'s everything 🌸','Here we go~ I\'m right beside you ✨','That first step was the hardest. Proud of you 💙'],
@@ -936,12 +1237,12 @@ const MSG = {
     streak:        ['Day {n} in a row 🔥 incredible~','Streak: {n} days! Don\'t break it~ 🐱','{n} days of showing up~ you\'re a star 💫'],
   },
   playful:{
-    morning_idle:  ['Rise and study!! The books won\'t read themselves 🚀','Oh? Still in bed? BOOKS NOW 📚🔥','I am WAITING. Let\'s GO~'],
+    morning_idle:  ['Rise and study!! The books won\'t read themselves 🚀','Oh? Still in bed? BOOKS NOW 📚🔥','Mizuki is WAITING. Let\'s GO~'],
     afternoon_idle:['Hello??? Have you forgotten about your goals?? 🐱','The afternoon is PERFECT and you\'re just... not studying?','OK bestie. Study. Now. For real. 😤'],
-    evening_idle:  ['Evening mode: PANIC STUDYING time 😂 let\'s go~','Last chance! Don\'t let today be a zero!!','I am giving you the disappointed cat stare 🐱...'],
-    started:       ['YESSS that\'s what I\'m talking about 🔥🔥','LET\'S GOOO~ I am HYPE','Okay you actually did it~ 🎉'],
+    evening_idle:  ['Evening mode: PANIC STUDYING time 😂 let\'s go~','Last chance! Don\'t let today be a zero!!','Mizuki is giving you the disappointed cat stare 🐱...'],
+    started:       ['YESSS that\'s what I\'m talking about 🔥🔥','LET\'S GOOO~ Mizuki is HYPE','Okay you actually did it~ 🎉'],
     halfway:       ['HALFWAY! Do NOT quit on me now!! 💪','You\'re so close!!! Keep pushing!!!','Half done = no excuses to stop now 😤✨'],
-    goal_met:      ['GOAL CRUSHED!!! CELEBRATING 🎉🔥','You absolute legend! DAILY GOAL = DONE 🏆','This is the best day ever!! 🌟🔥'],
+    goal_met:      ['GOAL CRUSHED!!! Mizuki is CELEBRATING 🎉🔥','You absolute legend! DAILY GOAL = DONE 🏆','This is the best day ever!! 🌟🔥'],
     streak:        ['DAY {n}!!! THE STREAK LIVES 🔥🔥🔥','{n} DAYS STRAIGHT!!! Nothing can stop you now!!','Streak at {n}~ we are SO not breaking this 🚀'],
   }
 };
@@ -1339,57 +1640,26 @@ function showReminderBanner() {
 
   const msg = getMizukiMsg();
   const name = S.companionName || 'Mizuki';
-  const avatarContent = S.avatarImage
-    ? `<img src="${S.avatarImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
-    : `<span style="font-size:32px">${S.avatarEmoji||'🐱'}</span>`;
 
   const banner = document.createElement('div');
   banner.id = 'reminder-banner';
-  banner.style.cssText = `
-    position:fixed;top:0;left:0;right:0;z-index:1000;
-    display:flex;flex-direction:column;
-    max-width:430px;margin:0 auto;
-    pointer-events:none;
-  `;
+  banner.className = 'rem-banner';
   banner.innerHTML = `
-    <div id="reminder-banner-inner" style="
-      margin:12px 16px 0;
-      background:rgba(255,255,255,0.95);
-      backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-      border-radius:22px;
-      padding:16px 18px;
-      box-shadow:0 12px 48px rgba(75,90,162,.18);
-      display:flex;align-items:center;gap:14px;
-      pointer-events:all;
-      animation:bannerSlideDown .35s cubic-bezier(.22,1,.36,1);
-      border:1px solid rgba(75,90,162,.08);
-    ">
-      <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#e8edff,#d2b6ee);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden">
-        ${avatarContent}
+    <div id="reminder-banner-inner" class="rem-banner-inner">
+      <div class="rem-banner-avatar">${buildAvatarHTML(32)}</div>
+      <div class="rem-banner-body">
+        <p class="rem-banner-name">${name} says~</p>
+        <p class="rem-banner-msg">${msg}</p>
       </div>
-      <div style="flex:1;min-width:0">
-        <p style="font-family:'Manrope',sans-serif;font-size:13px;font-weight:800;color:#4b5aa2;margin-bottom:3px">${name} says~</p>
-        <p style="font-size:13px;font-weight:600;color:#2d3338;line-height:1.4">${msg}</p>
-      </div>
-      <button onclick="dismissReminderBanner()" style="
-        background:none;border:none;cursor:pointer;padding:4px;
-        color:#adb3b8;flex-shrink:0;
-        font-family:'Material Symbols Outlined';font-size:20px;
-      ">close</button>
+      <button class="rem-banner-close" onclick="dismissReminderBanner()">close</button>
     </div>
-    <div style="
-      margin:0 24px;height:6px;
-      background:rgba(75,90,162,.08);
-      border-radius:0 0 10px 10px;
-    "></div>
+    <div class="rem-banner-tail"></div>
   `;
   document.body.appendChild(banner);
 
-  // Auto-dismiss after 12 seconds
   setTimeout(()=>{
     const b = document.getElementById('reminder-banner');
     if(b) {
-      b.style.animation = 'bannerSlideUp .3s ease forwards';
       b.querySelector('#reminder-banner-inner').style.animation = 'bannerSlideUp .3s ease forwards';
       setTimeout(()=>{ if(b.parentNode) b.remove(); }, 320);
     }
@@ -1594,23 +1864,11 @@ function renderMonthChart() {
   const BAR_AREA = 56;
   const chart = document.getElementById('month-chart');
   const daysEl = document.getElementById('month-days');
-  // Only show every 5th day label for space
   const labelDays = new Set([1,5,10,15,20,25,data.length]);
   chart.style.gap = '2px';
-  chart.innerHTML = data.map(d=>{
-    const h = Math.max(2, (d.minutes/max)*BAR_AREA);
-    let cls='bar';
-    if(!d.isFuture && d.minutes>0) cls+=' has-data';
-    if(d.isToday) cls+=' today-bar';
-    let lbl='';
-    if(!d.isFuture && d.minutes>0){
-      const txt = d.minutes>=60?(d.minutes/60).toFixed(1)+'h':d.minutes+'m';
-      lbl=`<div class="bar-lbl has-val" style="font-size:6px">${txt}</div>`;
-    } else {
-      lbl=`<div class="bar-lbl"></div>`;
-    }
-    return `<div class="bar-col">${lbl}<div class="${cls}" style="height:${h}px;border-radius:4px 4px 2px 2px"></div></div>`;
-  }).join('');
+  chart.innerHTML = data.map(d =>
+    buildBarCol(d.minutes, max, BAR_AREA, d.isToday, d.isFuture, '4px 4px 2px 2px')
+  ).join('');
   daysEl.innerHTML = data.map(d=>`<div style="flex:1;text-align:center;font-size:${labelDays.has(d.day)?'8':'0'}px;font-weight:600;color:${d.isToday?'var(--primary)':'var(--text-2)'};line-height:1">${labelDays.has(d.day)?d.day:''}</div>`).join('');
 }
 
@@ -1749,24 +2007,13 @@ function renderCalendar() {
 }
 
 function renderWeekChart() {
-  const data=weekData();
-  const max=Math.max(...data.map(d=>d.minutes),30);
-  const BAR_AREA = 68; // px for bar itself, label sits above
-  document.getElementById('week-chart').innerHTML=data.map(d=>{
-    const h=Math.max(4,(d.minutes/max)*BAR_AREA);
-    let cls='bar';
-    if(!d.isFuture&&d.minutes>0) cls+=' has-data';
-    if(d.isToday) cls+=' today-bar';
-    let lbl='';
-    if(!d.isFuture && d.minutes>0) {
-      const txt = d.minutes>=60 ? (d.minutes/60).toFixed(1)+'h' : d.minutes+'m';
-      lbl=`<div class="bar-lbl has-val">${txt}</div>`;
-    } else {
-      lbl=`<div class="bar-lbl"></div>`;
-    }
-    return `<div class="bar-col">${lbl}<div class="${cls}" style="height:${h}px"></div></div>`;
-  }).join('');
-  document.getElementById('week-days').innerHTML=data.map(d=>
+  const data = weekData();
+  const max = Math.max(...data.map(d=>d.minutes), 30);
+  const BAR_AREA = 68;
+  document.getElementById('week-chart').innerHTML = data.map(d =>
+    buildBarCol(d.minutes, max, BAR_AREA, d.isToday, d.isFuture)
+  ).join('');
+  document.getElementById('week-days').innerHTML = data.map(d=>
     `<div class="bar-day${d.isToday?' today':''}">${d.day}</div>`
   ).join('');
 }
@@ -1792,16 +2039,576 @@ function switchTab(tab) {
   document.getElementById('scroll-area').scrollTop=0;
   if(tab==='home'){renderHome();renderRemindersHome();}
   if(tab==='achievements')renderAchievements();
+  if(tab==='projects'){showProjView('overview');renderProjOverview();}
 }
 function goStudy(){switchTab('study');}
 
-// ═══ TOAST ═══
-let toastTimer;
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2600);
+// ═══ PROJECTS LAB ═══
+
+// ── Data helpers ──
+function getProjects(){ return S.projects || []; }
+function saveProjects(arr){ S.projects=arr; save(); }
+function genProjId(){ return 'p_'+Date.now()+'_'+Math.random().toString(36).slice(2,6); }
+
+// ── Parse duration string → minutes ──
+// Accepts: "45m", "2h", "1.5h", "1h30m", "90", "2h 30m"
+function parseDurMin(s){
+  if(!s) return 0;
+  s = s.trim().toLowerCase();
+  let m = 0;
+  const hm = s.match(/(\d+(?:\.\d+)?)\s*h(?:r|ours?)?\s*(?:(\d+(?:\.\d+)?)\s*m)?/);
+  if(hm){ m += parseFloat(hm[1])*60; if(hm[2]) m += parseFloat(hm[2]); return Math.round(m); }
+  const mm = s.match(/^(\d+(?:\.\d+)?)\s*m/);
+  if(mm){ return Math.round(parseFloat(mm[1])); }
+  const num = parseFloat(s);
+  if(!isNaN(num)) return Math.round(num);
+  return 0;
 }
+function fmtMin(min){
+  if(min<=0) return '0m';
+  if(min<60) return min+'m';
+  const h=Math.floor(min/60), rm=min%60;
+  return rm>0 ? h+'h '+rm+'m' : h+'h';
+}
+
+// ── Sub-view routing ──
+let projCurrentId = null;
+
+function showProjView(view){
+  document.querySelectorAll('.proj-view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('proj-view-'+view).classList.add('active');
+  document.getElementById('scroll-area').scrollTop=0;
+}
+
+// ── Color palette ──
+const PROJ_COLORS = [
+  'linear-gradient(90deg,var(--primary),var(--primary-c))',
+  'linear-gradient(90deg,var(--tertiary),var(--tertiary-c))',
+  'linear-gradient(90deg,#44546a,#c5d6f0)',
+  'linear-gradient(90deg,#3f4e95,#9aa9f7)'
+];
+
+// ── Progress: based on done task hours / total task hours ──
+function calcProjTimes(proj){
+  const tasks = proj.tasks||[];
+  let total=0, done=0;
+  tasks.forEach(t=>{ const m=parseDurMin(t.dur); total+=m; if(t.done) done+=m; });
+  return {total, done};
+}
+function calcProjProgress(proj){
+  const {total,done} = calcProjTimes(proj);
+  if(!total) {
+    // fallback: task count ratio
+    const tasks = proj.tasks||[];
+    if(!tasks.length) return 0;
+    return Math.round(tasks.filter(t=>t.done).length/tasks.length*100);
+  }
+  return Math.round(done/total*100);
+}
+
+// ── Overview render ──
+function renderProjOverview(){
+  const projects = getProjects();
+  const container = document.getElementById('proj-cards-container');
+  const sorted = [...projects].sort((a,b)=>(b.focus?1:0)-(a.focus?1:0));
+  container.innerHTML = sorted.map((p,i)=>{
+    const pct = calcProjProgress(p);
+    const tasks = p.tasks||[];
+    const doneCnt = tasks.filter(t=>t.done).length;
+    const {total,done} = calcProjTimes(p);
+    const colorIdx = i % PROJ_COLORS.length;
+    const progressColor = PROJ_COLORS[colorIdx];
+    const timeInfo = total>0 ? `${fmtMin(done)} / ${fmtMin(total)}` : `${doneCnt}/${tasks.length} tasks`;
+    return `<div class="proj-card" onclick="openProjDetail('${p.id}')">
+      <button class="proj-focus-toggle" onclick="event.stopPropagation();toggleProjFocus('${p.id}')" title="${p.focus?'Remove focus':'Set as focus'}">
+        <span class="ms" style="font-size:20px;color:${p.focus?'#a83836':'var(--outline)'}">${p.focus?'push_pin':'push_pin'}</span>
+      </button>
+      <div class="proj-card-top" style="padding-right:32px">
+        <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
+          <div class="proj-card-icon">${p.icon||'📚'}</div>
+          <div style="flex:1;min-width:0">
+            <p class="proj-card-title">${escHtml(p.name)}</p>
+            ${p.desc?`<p class="proj-card-sub">${escHtml(p.desc.slice(0,60))}${p.desc.length>60?'…':''}</p>`:''}
+          </div>
+        </div>
+        ${p.focus?`<span class="proj-card-badge" style="position:absolute;top:14px;right:42px">📌</span>`:''}
+      </div>
+      <div class="proj-card-footer">
+        <div>
+          <p class="proj-pct" style="color:${pct===100?'var(--tertiary)':'var(--primary)'}">${pct}%</p>
+          <p class="proj-pct-lbl">completed</p>
+        </div>
+        <div class="proj-tasks-count">
+          <p class="proj-tasks-num" style="font-size:13px">${timeInfo}</p>
+          <p class="proj-tasks-lbl">${total>0?'time done':'tasks done'}</p>
+        </div>
+      </div>
+      <div class="proj-progress-track">
+        <div class="proj-progress-fill" style="width:${pct}%;background:${progressColor}"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleProjFocus(id){
+  const projects = getProjects();
+  const proj = projects.find(p=>p.id===id);
+  if(!proj) return;
+  proj.focus = !proj.focus;
+  saveProjects(projects);
+  renderProjOverview();
+  showToast(proj.focus ? '📌 Marked as Focus' : 'Focus removed');
+}
+
+// ── Detail view ──
+function openProjDetail(id){
+  projCurrentId = id;
+  const projects = getProjects();
+  const proj = projects.find(p=>p.id===id);
+  if(!proj) return;
+  document.getElementById('proj-detail-title').textContent = proj.name;
+  document.getElementById('proj-detail-sub').textContent = proj.desc||'';
+  renderProjMetrics(proj);
+  renderProjBurndown(proj);
+  renderProjTasks(proj);
+  closeTaskForm();
+  closeProjTaskEditForm();
+  showProjView('detail');
+}
+
+// ── Metrics ──
+function renderProjMetrics(proj){
+  const tasks = proj.tasks||[];
+  const {total, done} = calcProjTimes(proj);
+  const pct = calcProjProgress(proj);
+
+  // Timeline
+  let timelineHTML = '<span style="font-size:18px;font-weight:800;color:var(--text-2)">—</span>';
+  let timelineSubHTML = '<p class="proj-metric-sub">No target date</p>';
+  let timelineBar = '';
+  let totalDays = 0, elapsedDays = 0;
+
+  if(proj.targetDate){
+    const created = new Date(proj.createdAt||Date.now());
+    const target   = new Date(proj.targetDate);
+    const now      = new Date();
+    totalDays   = Math.max(1, Math.round((target-created)/(1000*60*60*24)));
+    elapsedDays = Math.max(0, Math.round((now-created)/(1000*60*60*24)));
+    const clamped   = Math.min(elapsedDays, totalDays);
+    const barPct    = Math.round(clamped/totalDays*100);
+    const remaining = Math.max(0, totalDays-elapsedDays);
+    timelineHTML = `<span style="font-family:'Manrope',sans-serif;font-size:22px;font-weight:800">${clamped}</span><span style="font-size:13px;color:var(--text-2);margin-left:4px">/ ${totalDays}d</span>`;
+    timelineSubHTML = `<p class="proj-metric-sub" style="color:var(--primary)">${remaining>0?remaining+'d left':'Deadline reached'}</p>`;
+    timelineBar = `<div class="proj-metric-bar"><div class="proj-metric-bar-fill" style="width:${barPct}%;background:linear-gradient(90deg,var(--primary),var(--primary-c))"></div></div>`;
+  }
+
+  // Progress: done time / total time
+  let progressHTML, progressSubHTML, progressBar;
+  if(total>0){
+    progressHTML = `<span style="font-family:'Manrope',sans-serif;font-size:19px;font-weight:800">${fmtMin(done)}</span><span style="font-size:12px;color:var(--text-2);margin-left:4px">/ ${fmtMin(total)}</span>`;
+    progressSubHTML = `<p class="proj-metric-sub" style="color:var(--primary)">${pct}% of total hours</p>`;
+    progressBar = `<div class="proj-metric-bar"><div class="proj-metric-bar-fill" style="width:${pct}%"></div></div>`;
+  } else {
+    const doneCnt = tasks.filter(t=>t.done).length;
+    progressHTML = `<span style="font-family:'Manrope',sans-serif;font-size:22px;font-weight:800">${doneCnt}/${tasks.length}</span>`;
+    progressSubHTML = `<p class="proj-metric-sub" style="color:var(--text-2)">Add durations for time tracking</p>`;
+    progressBar = `<div class="proj-metric-bar"><div class="proj-metric-bar-fill" style="width:${pct}%"></div></div>`;
+  }
+
+  // Pace: compare actual done% vs ideal done% given days elapsed
+  let paceLabel='—', paceColor='var(--text-2)', paceSub='';
+  if(total>0 && proj.targetDate && totalDays>0){
+    const idealPct = Math.min(100, Math.round(elapsedDays/totalDays*100));
+    const delta = pct - idealPct;
+    if(pct>=100){paceLabel='Done! 🎉';paceColor='var(--tertiary)';paceSub='All tasks complete';}
+    else if(delta>=15){paceLabel='Ahead 🚀';paceColor='var(--tertiary)';paceSub=`+${delta}% ahead of plan`;}
+    else if(delta>=-10){paceLabel='On Track ✓';paceColor='var(--primary)';paceSub=`${Math.abs(delta)}% vs ideal`;}
+    else if(delta>=-25){paceLabel='Slight delay';paceColor='#a07020';paceSub=`${Math.abs(delta)}% behind plan`;}
+    else{paceLabel='Behind ⚡';paceColor='#a83836';paceSub=`${Math.abs(delta)}% behind—push it!`;}
+  } else if(tasks.length===0){
+    paceLabel='Add tasks';paceColor='var(--outline)';paceSub='No tasks yet';
+  } else if(!proj.targetDate){
+    const doneCnt=tasks.filter(t=>t.done).length;
+    if(pct>=100){paceLabel='Done! 🎉';paceColor='var(--tertiary)';}
+    else if(pct>=70){paceLabel='Great pace';paceColor='var(--tertiary)';}
+    else if(pct>=30){paceLabel='In progress';paceColor='var(--primary)';}
+    else{paceLabel='Just started';paceColor='var(--secondary)';}
+    paceSub='Set a target date for pace tracking';
+  }
+
+  document.getElementById('proj-detail-metrics').innerHTML = `
+    <div class="proj-metric-card">
+      <p class="proj-metric-label"><span class="ms" style="font-size:14px;color:var(--primary)">calendar_today</span> Timeline</p>
+      <div>${timelineHTML}</div>
+      ${timelineSubHTML}
+      ${timelineBar}
+    </div>
+    <div class="proj-metric-card">
+      <p class="proj-metric-label"><span class="ms" style="font-size:14px;color:var(--tertiary)">schedule</span> Progress</p>
+      <div>${progressHTML}</div>
+      ${progressSubHTML}
+      ${progressBar}
+    </div>
+    <div class="proj-metric-card" style="grid-column:1/-1">
+      <p class="proj-metric-label"><span class="ms" style="font-size:14px;color:var(--primary)">pace</span> Pace</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <span style="font-family:'Manrope',sans-serif;font-size:20px;font-weight:800;color:${paceColor}">${paceLabel}</span>
+        ${paceSub?`<span style="font-size:12px;color:var(--text-2);font-weight:500">${paceSub}</span>`:''}
+      </div>
+    </div>`;
+}
+
+// ── Burndown Chart ──
+function renderProjBurndown(proj){
+  const wrap = document.getElementById('proj-burndown-wrap');
+  const tasks = proj.tasks||[];
+  const {total} = calcProjTimes(proj);
+
+  // Need targetDate + tasks with durations
+  if(!proj.targetDate || total===0){
+    wrap.innerHTML = `<p class="section-title" style="margin-bottom:4px">Burn-down Chart</p>
+      <p style="font-size:12px;color:var(--text-2)">${!proj.targetDate?'Set a target date to see the burn-down chart.':'Add task durations to see the burn-down chart.'}</p>`;
+    return;
+  }
+
+  const created    = new Date(proj.createdAt||Date.now());
+  const target     = new Date(proj.targetDate);
+  const now        = new Date();
+  const totalDays  = Math.max(1, Math.round((target-created)/(1000*60*60*24)));
+  const elapsedDays= Math.max(0, Math.min(totalDays, Math.round((now-created)/(1000*60*60*24))));
+
+  // Ideal line: evenly distribute total minutes across totalDays
+  // remaining[d] = total - (total/totalDays)*d  (linear)
+  const dailyBurn = total / totalDays;
+
+  // Actual line: for each day 0..elapsedDays, compute remaining work
+  // We don't store per-day completion, so we simulate:
+  // treat all done tasks as completed evenly distributed up to today
+  const doneMins = calcProjTimes(proj).done;
+  // Simplification: actual remaining drops linearly from total to (total-done) over elapsedDays
+  // This is the honest representation given we don't have day-by-day history
+  const actualPoints = [];
+  for(let d=0; d<=elapsedDays; d++){
+    const rem = total - (elapsedDays>0 ? (doneMins/elapsedDays)*d : 0);
+    actualPoints.push({d, rem: Math.max(0, rem)});
+  }
+
+  // SVG dimensions (viewBox coordinate space)
+  const W=260, H=120, padL=32, padR=8, padT=10, padB=24;
+  const cW=W-padL-padR, cH=H-padT-padB;
+
+  // Y axis: 0 to total (round up to nice number)
+  const yMax = total;
+
+  function xp(d){ return padL + (d/totalDays)*cW; }
+  function yp(rem){ return padT + cH - (rem/yMax)*cH; }
+
+  // Ideal line points
+  const idealPts = [0,totalDays].map(d=>({d,rem:Math.max(0,total-dailyBurn*d)}));
+
+  // Y axis labels
+  const ySteps=[0,0.25,0.5,0.75,1].map(f=>({v:yp(yMax*f),lbl:fmtMin(Math.round(yMax*f))}));
+
+  // X axis labels: show ~5 evenly spaced
+  const xLabels=[];
+  const xStep=Math.max(1,Math.round(totalDays/4));
+  for(let d=0;d<=totalDays;d+=xStep) xLabels.push(d);
+  if(xLabels[xLabels.length-1]!==totalDays) xLabels.push(totalDays);
+
+  // Build SVG paths
+  const idealPath = `M${xp(idealPts[0].d)},${yp(idealPts[0].rem)} L${xp(idealPts[1].d)},${yp(idealPts[1].rem)}`;
+  const actualPath = actualPoints.map((pt,i)=>`${i===0?'M':'L'}${xp(pt.d)},${yp(pt.rem)}`).join(' ');
+  const areaPath = actualPoints.length>0
+    ? `M${xp(actualPoints[0].d)},${yp(0)} `+actualPoints.map(pt=>`L${xp(pt.d)},${yp(pt.rem)}`).join(' ')+` L${xp(actualPoints[actualPoints.length-1].d)},${yp(0)} Z`
+    : '';
+
+  // Pace badge for chart
+  let paceTxt='', paceBg='', paceClr='';
+  if(elapsedDays>0 && totalDays>0){
+    const idealDoneNow = Math.min(total, dailyBurn*elapsedDays);
+    const delta = doneMins - idealDoneNow;
+    if(delta>=0){paceTxt=`+${fmtMin(Math.round(delta))} ahead`;paceBg='rgba(109,85,134,.1)';paceClr='var(--tertiary)';}
+    else{paceTxt=`${fmtMin(Math.round(-delta))} behind`;paceBg='rgba(168,56,54,.08)';paceClr='#a83836';}
+  }
+
+  wrap.innerHTML = `
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+      <div>
+        <p class="proj-burndown-title">Burn-down Chart</p>
+        <p class="proj-burndown-sub">Remaining workload · ${fmtMin(total)} total</p>
+      </div>
+      <div class="proj-burndown-legend">
+        <div class="proj-burndown-legend-item"><div class="proj-burndown-dot" style="background:var(--s4);border:2px solid var(--outline)"></div>Planned</div>
+        <div class="proj-burndown-legend-item"><div class="proj-burndown-dot" style="background:var(--primary)"></div>Actual</div>
+      </div>
+    </div>
+    <div class="proj-burndown-svg-wrap">
+      <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
+        <defs>
+          <linearGradient id="bdGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--primary-c)" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="var(--primary-c)" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- Grid lines -->
+        ${ySteps.map(s=>`<line x1="${padL}" y1="${s.v}" x2="${W-padR}" y2="${s.v}" stroke="var(--s3)" stroke-width="0.8"/>
+          <text x="${padL-4}" y="${s.v+3.5}" text-anchor="end" font-size="7" fill="var(--text-2)" font-family="Plus Jakarta Sans">${s.lbl}</text>`).join('')}
+        <!-- Ideal (planned) dashed line -->
+        <path d="${idealPath}" stroke="var(--outline)" stroke-width="1.2" stroke-dasharray="3 2" fill="none"/>
+        <!-- Area fill -->
+        ${areaPath?`<path d="${areaPath}" fill="url(#bdGrad)"/>`:''}
+        <!-- Actual line -->
+        ${actualPoints.length>1?`<path d="${actualPath}" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`:''}
+        <!-- Current day dot -->
+        ${actualPoints.length>0?`<circle cx="${xp(actualPoints[actualPoints.length-1].d)}" cy="${yp(actualPoints[actualPoints.length-1].rem)}" r="3" fill="white" stroke="var(--primary)" stroke-width="1.5"/>`:''}
+        <!-- X axis labels -->
+        ${xLabels.map(d=>`<text x="${xp(d)}" y="${H-4}" text-anchor="middle" font-size="7" fill="var(--text-2)" font-family="Plus Jakarta Sans">D${d}</text>`).join('')}
+        <!-- X axis line -->
+        <line x1="${padL}" y1="${padT+cH}" x2="${W-padR}" y2="${padT+cH}" stroke="var(--s4)" stroke-width="0.8"/>
+        <!-- Today marker -->
+        ${elapsedDays<totalDays?`<line x1="${xp(elapsedDays)}" y1="${padT}" x2="${xp(elapsedDays)}" y2="${padT+cH}" stroke="var(--primary)" stroke-width="0.8" stroke-dasharray="2 2" opacity="0.4"/>`:'' }
+      </svg>
+    </div>
+    ${paceTxt?`<div style="margin-top:8px"><span style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:99px;font-size:11px;font-weight:700;background:${paceBg};color:${paceClr}">⏱ ${paceTxt}</span></div>`:''}`;
+}
+
+// ── Task list ──
+let taskEditIdx = null;
+
+function renderProjTasks(proj){
+  const tasks = proj.tasks||[];
+  const done = tasks.filter(t=>t.done).length;
+  const {total, done:doneMin} = calcProjTimes(proj);
+  document.getElementById('proj-detail-task-count').textContent =
+    total>0 ? `${fmtMin(doneMin)} / ${fmtMin(total)}` : (tasks.length ? `${done}/${tasks.length}` : '');
+
+  document.getElementById('proj-detail-tasks').innerHTML = tasks.map((t,i)=>`
+    <div class="proj-task-item" id="proj-task-item-${i}">
+      <button class="proj-task-check ${t.done?'done':''}" onclick="toggleTask(${i})">
+        ${t.done?'<span class="ms" style="font-size:14px;color:white">check</span>':''}
+      </button>
+      <div class="proj-task-body">
+        <p class="proj-task-name ${t.done?'done':''}">${escHtml(t.name)}</p>
+        ${t.note?`<p class="proj-task-note">${escHtml(t.note)}</p>`:''}
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+        ${t.dur?`<span class="proj-task-dur">${escHtml(t.dur)}</span>`:''}
+        <button class="proj-task-edit-btn" onclick="openProjTaskEdit(${i})" title="Edit task">
+          <span class="ms" style="font-size:16px">edit</span>
+        </button>
+      </div>
+    </div>
+    <div id="proj-task-edit-form-${i}" class="proj-task-edit-form" style="display:none">
+      <div class="proj-task-edit-row" style="margin-bottom:8px">
+        <input class="proj-task-edit-input" id="proj-te-name-${i}" placeholder="Task name" type="text" value="${escHtml(t.name)}" />
+      </div>
+      <div class="proj-task-edit-row">
+        <input class="proj-task-edit-input" id="proj-te-note-${i}" placeholder="Note (optional)" type="text" value="${escHtml(t.note||'')}" />
+        <input class="proj-task-edit-input proj-task-dur-edit" id="proj-te-dur-${i}" placeholder="e.g. 45m / 2h" type="text" value="${escHtml(t.dur||'')}" />
+      </div>
+      <div class="proj-task-edit-actions">
+        <button class="proj-task-delete-btn" onclick="deleteProjTask(${i})">Delete</button>
+        <div style="display:flex;gap:6px">
+          <button class="proj-form-cancel" onclick="closeProjTaskEditForm()" style="padding:7px 12px;font-size:12px">Cancel</button>
+          <button class="proj-form-confirm" onclick="saveProjTaskEdit(${i})" style="padding:7px 14px;font-size:12px">Save</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function openProjTaskEdit(i){
+  closeProjTaskEditForm();
+  taskEditIdx = i;
+  const form = document.getElementById(`proj-task-edit-form-${i}`);
+  if(form){ form.style.display='block'; document.getElementById(`proj-te-name-${i}`).focus(); }
+}
+function closeProjTaskEditForm(){
+  if(taskEditIdx!==null){
+    const form = document.getElementById(`proj-task-edit-form-${taskEditIdx}`);
+    if(form) form.style.display='none';
+    taskEditIdx=null;
+  }
+}
+function saveProjTaskEdit(i){
+  const name = document.getElementById(`proj-te-name-${i}`).value.trim();
+  if(!name){showToast('Task name cannot be empty');return;}
+  const note = document.getElementById(`proj-te-note-${i}`).value.trim();
+  const dur  = document.getElementById(`proj-te-dur-${i}`).value.trim();
+  const projects = getProjects();
+  const proj = projects.find(p=>p.id===projCurrentId);
+  if(!proj||!proj.tasks) return;
+  proj.tasks[i] = {...proj.tasks[i], name, note, dur};
+  saveProjects(projects);
+  closeProjTaskEditForm();
+  renderProjTasks(proj);
+  renderProjMetrics(proj);
+  renderProjBurndown(proj);
+  showToast('✅ Task updated');
+}
+function deleteProjTask(i){
+  const projects = getProjects();
+  const proj = projects.find(p=>p.id===projCurrentId);
+  if(!proj||!proj.tasks) return;
+  proj.tasks.splice(i,1);
+  saveProjects(projects);
+  closeProjTaskEditForm();
+  renderProjTasks(proj);
+  renderProjMetrics(proj);
+  renderProjBurndown(proj);
+  showToast('🗑️ Task deleted');
+}
+
+function toggleTask(idx){
+  const projects = getProjects();
+  const proj = projects.find(p=>p.id===projCurrentId);
+  if(!proj||!proj.tasks) return;
+  proj.tasks[idx].done = !proj.tasks[idx].done;
+  saveProjects(projects);
+  renderProjTasks(proj);
+  renderProjMetrics(proj);
+  renderProjBurndown(proj);
+}
+
+// ── Task add form ──
+function openTaskForm(){
+  closeProjTaskEditForm();
+  const form = document.getElementById('proj-task-form');
+  form.classList.add('open');
+  document.getElementById('proj-task-name-input').focus();
+}
+function closeTaskForm(){
+  const form = document.getElementById('proj-task-form');
+  form.classList.remove('open');
+  document.getElementById('proj-task-name-input').value='';
+  document.getElementById('proj-task-note-input').value='';
+  document.getElementById('proj-task-dur-input').value='';
+}
+function confirmAddTask(){
+  const name = document.getElementById('proj-task-name-input').value.trim();
+  if(!name){showToast('Please enter a task name');return;}
+  const note = document.getElementById('proj-task-note-input').value.trim();
+  const dur  = document.getElementById('proj-task-dur-input').value.trim();
+  const projects = getProjects();
+  const proj = projects.find(p=>p.id===projCurrentId);
+  if(!proj) return;
+  if(!proj.tasks) proj.tasks=[];
+  proj.tasks.push({name, note, dur, done:false});
+  saveProjects(projects);
+  closeTaskForm();
+  renderProjTasks(proj);
+  renderProjMetrics(proj);
+  renderProjBurndown(proj);
+  showToast('✅ Task added');
+}
+
+// ── Edit sheet (project-level) ──
+let projEditingId = null;
+const EDIT_ICONS = ['📚','🔬','✏️','💻','🎯','🗓️','🏋️','🎨','🌍','🧪','📖','⚗️','🎵','🏃','🧠'];
+let editSelectedIcon = '📚';
+
+function openEditSheet(id){
+  projEditingId = id;
+  const projects = getProjects();
+  const proj = id ? projects.find(p=>p.id===id) : null;
+
+  document.getElementById('proj-edit-title-label').textContent = proj ? 'Edit Project' : 'New Project';
+  document.getElementById('proj-edit-name').value  = proj ? proj.name  : '';
+  document.getElementById('proj-edit-desc').value  = proj ? (proj.desc||'') : '';
+  document.getElementById('proj-edit-date').value  = proj ? (proj.targetDate||'') : '';
+  document.getElementById('proj-edit-focus').checked = proj ? !!proj.focus : false;
+
+  editSelectedIcon = proj ? (proj.icon||'📚') : '📚';
+  renderEditIconGrid();
+
+  const progressWrap = document.getElementById('proj-edit-progress-wrap');
+  const deleteBtn    = document.getElementById('proj-delete-btn');
+  if(proj){
+    const pct = calcProjProgress(proj);
+    document.getElementById('proj-edit-progress-pct').textContent = pct+'%';
+    document.getElementById('proj-edit-progress-fill').style.width = pct+'%';
+    progressWrap.style.display='block';
+    deleteBtn.style.display='block';
+  } else {
+    progressWrap.style.display='none';
+    deleteBtn.style.display='none';
+  }
+  document.getElementById('proj-edit-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('proj-edit-name').focus(),320);
+}
+function renderEditIconGrid(){
+  document.getElementById('proj-icon-grid').innerHTML = EDIT_ICONS.map(ic=>`
+    <button class="proj-icon-opt ${ic===editSelectedIcon?'selected':''}" onclick="selectProjIcon('${ic}')">${ic}</button>`).join('');
+}
+function selectProjIcon(icon){ editSelectedIcon=icon; renderEditIconGrid(); }
+function closeEditSheet(){ document.getElementById('proj-edit-overlay').classList.remove('open'); }
+function handleEditOverlayClick(e){ if(e.target===document.getElementById('proj-edit-overlay')) closeEditSheet(); }
+
+function saveProject(){
+  const name = document.getElementById('proj-edit-name').value.trim();
+  if(!name){showToast('Please enter a project name');return;}
+  const desc  = document.getElementById('proj-edit-desc').value.trim();
+  const date  = document.getElementById('proj-edit-date').value;
+  const focus = document.getElementById('proj-edit-focus').checked;
+  const projects = getProjects();
+
+  if(projEditingId){
+    const proj = projects.find(p=>p.id===projEditingId);
+    if(proj){ proj.name=name; proj.desc=desc; proj.targetDate=date; proj.focus=focus; proj.icon=editSelectedIcon; }
+  } else {
+    projects.push({ id:genProjId(), name, desc, icon:editSelectedIcon, targetDate:date, focus, createdAt:Date.now(), tasks:[] });
+  }
+  saveProjects(projects);
+  closeEditSheet();
+  showToast(projEditingId ? '✅ Project updated' : '✅ Project created');
+
+  const overviewActive = document.getElementById('proj-view-overview').classList.contains('active');
+  if(overviewActive){
+    renderProjOverview();
+  } else if(projCurrentId && projEditingId===projCurrentId){
+    const updated = getProjects().find(p=>p.id===projCurrentId);
+    if(updated){
+      document.getElementById('proj-detail-title').textContent = updated.name;
+      document.getElementById('proj-detail-sub').textContent = updated.desc||'';
+      renderProjMetrics(updated);
+      renderProjBurndown(updated);
+    }
+  }
+}
+
+function deleteProject(){
+  if(!projEditingId) return;
+  const projects = getProjects().filter(p=>p.id!==projEditingId);
+  saveProjects(projects);
+  closeEditSheet();
+  showToast('🗑️ Project deleted');
+  if(projCurrentId===projEditingId){ projCurrentId=null; showProjView('overview'); }
+  renderProjOverview();
+}
+
+// ── Helpers ──
+function escHtml(s){
+  if(!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function initDefaultProjects(){
+  if(!S.projects){
+    S.projects=[{
+      id:genProjId(), name:'Goethe B2', desc:'5-month prep · 新求精 Book 1 & 2',
+      icon:'📚', focus:true, createdAt:Date.now(), targetDate:'',
+      tasks:[
+        {name:'Book 1 quick-scan: Units 1–7',  note:'LV + grammar drills',  dur:'14h', done:false},
+        {name:'Book 1 quick-scan: Units 8–14', note:'HV + grammar drills',  dur:'14h', done:false},
+        {name:'Book 2 deep-study: Units 15–22',note:'5-day cycle per unit', dur:'40h', done:false},
+        {name:'Book 2 deep-study: Units 23–28',note:'5-day cycle per unit', dur:'30h', done:false},
+        {name:'First mock exam',               note:'Full B2 simulation',   dur:'4h',  done:false},
+        {name:'Targeted review & C1 prep',     note:'Weak areas',           dur:'20h', done:false}
+      ]
+    }];
+    save();
+  }
+}
+
 
 // ═══ QUOTES ═══
 const QUOTES=[
@@ -1846,6 +2653,9 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
   // Render
   refreshAll();
+
+  // Projects: seed defaults on first launch
+  initDefaultProjects();
 
   // Chat header sync
   syncChatHeader();
@@ -2033,21 +2843,12 @@ function setChatBgImage(event) {
 
 function renderChatMessages() {
   const container = document.getElementById('chat-messages');
-  const name = S.companionName || 'Mizuki';
-  const avatarHTML = S.avatarImage
-    ? `<img src="${S.avatarImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
-    : `<span>${S.avatarEmoji || '🐱'}</span>`;
-
+  const avatarHTML = buildAvatarHTML();
   container.innerHTML = chatHistory.map(msg => {
     if (msg.role === 'assistant') {
-      return `<div class="msg-row">
-        <div class="msg-avatar-sm">${avatarHTML}</div>
-        <div class="msg-bubble ai">${escapeHtml(msg.content)}</div>
-      </div>`;
+      return `<div class="msg-row"><div class="msg-avatar-sm">${avatarHTML}</div><div class="msg-bubble ai">${escapeHtml(msg.content)}</div></div>`;
     } else {
-      return `<div class="msg-row user">
-        <div class="msg-bubble user">${escapeHtml(msg.content)}</div>
-      </div>`;
+      return `<div class="msg-row user"><div class="msg-bubble user">${escapeHtml(msg.content)}</div></div>`;
     }
   }).join('');
   scrollChatToBottom();
@@ -2064,14 +2865,10 @@ function scrollChatToBottom() {
 
 function appendChatBubble(role, content) {
   const container = document.getElementById('chat-messages');
-  const name = S.companionName || 'Mizuki';
-  const avatarHTML = S.avatarImage
-    ? `<img src="${S.avatarImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
-    : `<span>${S.avatarEmoji || '🐱'}</span>`;
   const div = document.createElement('div');
   div.className = role === 'assistant' ? 'msg-row' : 'msg-row user';
   div.innerHTML = role === 'assistant'
-    ? `<div class="msg-avatar-sm">${avatarHTML}</div><div class="msg-bubble ai">${escapeHtml(content)}</div>`
+    ? `<div class="msg-avatar-sm">${buildAvatarHTML()}</div><div class="msg-bubble ai">${escapeHtml(content)}</div>`
     : `<div class="msg-bubble user">${escapeHtml(content)}</div>`;
   container.appendChild(div);
   scrollChatToBottom();
@@ -2082,10 +2879,7 @@ function showTypingIndicator() {
   const div = document.createElement('div');
   div.className = 'msg-row';
   div.id = 'typing-indicator';
-  const avatarHTML = S.avatarImage
-    ? `<img src="${S.avatarImage}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`
-    : `<span>${S.avatarEmoji || '🐱'}</span>`;
-  div.innerHTML = `<div class="msg-avatar-sm">${avatarHTML}</div>
+  div.innerHTML = `<div class="msg-avatar-sm">${buildAvatarHTML()}</div>
     <div class="msg-bubble ai typing"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
   container.appendChild(div);
   scrollChatToBottom();

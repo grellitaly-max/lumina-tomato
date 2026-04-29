@@ -251,9 +251,17 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
 .bg-upload-btn{width:100%;padding:8px;background:var(--s1);border:none;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:var(--primary);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 
 
-/* Reminder banner animations */
-@keyframes bannerSlideDown{from{opacity:0;transform:translateY(-24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes bannerSlideUp{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-20px)}}
+/* Streak recovery dots */
+.streak-recovery{display:flex;gap:3px;margin-top:6px}
+.streak-dot{font-size:13px;opacity:.25;transition:opacity .3s,transform .3s}
+.streak-dot.lit{opacity:1;animation:dotPop .4s ease}
+@keyframes dotPop{0%{transform:scale(1.6)}60%{transform:scale(.85)}100%{transform:scale(1)}}
+
+/* Save Session button ripple */
+.btn-save-ripple{position:relative;overflow:hidden}
+.btn-save-ripple::after{content:'';position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.35);opacity:0;transform:scale(0);transition:transform .4s ease,opacity .4s ease;pointer-events:none}
+.btn-save-ripple.rippling::after{transform:scale(1);opacity:1}
+.btn-save-ripple.rippling{transform:scale(.97)}
 
 /* ── Utility classes ── */
 /* Typography */
@@ -575,7 +583,7 @@ nav{flex:0 0 auto;height:68px;display:flex;justify-content:space-around;align-it
         <input class="field-input" type="number" id="manual-mins" placeholder="Enter minutes" min="1" max="720">
         <span style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:700;color:var(--outline);letter-spacing:.1em">MINS</span>
       </div>
-      <button class="btn-secondary" onclick="saveManualSession()">
+      <button class="btn-secondary btn-save-ripple" id="save-session-btn" onclick="saveManualSession()">
         <span class="ms">add_task</span> Save Session
       </button>
     </div>
@@ -1024,6 +1032,11 @@ const DEFAULT = {
   aiKey:'',
   aiModel:'',
   aiBaseUrl:'',
+  // Streak recovery: when streak breaks, store the broken value and recovery progress
+  streakBroken:0,        // the streak count at time of break (0 = no active recovery)
+  streakBrokenDate:'',   // date streak was broken
+  streakRecoveryDays:[], // dates studied during recovery window (need 3 consecutive)
+  streakOffset:0,        // added to rawStreak after recovery completion
 };
 let S = load();
 
@@ -1154,18 +1167,124 @@ let prevBadges = {};
 // ═══ DATE HELPERS ═══
 function todayMins() { return S.sessions.filter(s=>s.date===today()).reduce((s,x)=>s+x.minutes,0); }
 
-function streak() {
-  const days = new Set(S.sessions.map(s=>s.date));
-  let n=0;
+// ═══ STREAK ═══════════════════════════════════════════════════════════════════
+// Raw consecutive days ending today (or yesterday if today not studied yet)
+function rawStreak() {
+  const days = new Set(S.sessions.map(s => s.date));
   const base = nowCN();
-  for(let i=0; i<9999; i++) {
-    const d = new Date(base.getTime() - i*86400000);
-    const ds = d.toISOString().split('T')[0];
-    if(days.has(ds)) n++;
+  let n = 0;
+  for (let i = 0; i < 9999; i++) {
+    const ds = new Date(base.getTime() - i * 86400000).toISOString().split('T')[0];
+    if (days.has(ds)) n++;
     else break;
   }
   return n;
 }
+
+function rawStreakEndingOn(dateStr, daysSet) {
+  let n = 0, cur = dateStr;
+  for (let i = 0; i < 9999; i++) {
+    if (daysSet.has(cur)) {
+      n++;
+      cur = new Date(cur + 'T00:00:00Z').getTime() - 86400000;
+      cur = new Date(cur).toISOString().split('T')[0];
+    } else break;
+  }
+  return n;
+}
+
+// Count consecutive days in sorted array ending on anchorDate
+function consecSuffix(sortedDates, anchorDate) {
+  const set = new Set(sortedDates);
+  let n = 0, cur = anchorDate;
+  while (set.has(cur)) {
+    n++;
+    cur = new Date(new Date(cur + 'T00:00:00Z').getTime() - 86400000).toISOString().split('T')[0];
+  }
+  return n;
+}
+
+// Called after any session is saved — updates recovery state in S and persists.
+function syncStreakState() {
+  const todayStr = today();
+  const days = new Set(S.sessions.map(s => s.date));
+
+  // ── Case 1: No stored break → check if one should be initiated ──
+  if (!S.streakBroken) {
+    if (!days.has(todayStr)) {
+      const sortedDays = [...days].sort().reverse();
+      if (sortedDays.length) {
+        const last = sortedDays[0];
+        const yesterday = new Date(nowCN().getTime() - 86400000).toISOString().split('T')[0];
+        if (last < yesterday) {
+          const broken = rawStreakEndingOn(last, days);
+          if (broken > 0) {
+            S.streakBroken = broken;
+            S.streakBrokenDate = last;
+            S.streakRecoveryDays = [];
+            save();
+          }
+        }
+      }
+    }
+    return;
+  }
+
+  // ── Case 2: Active recovery ──
+  if (days.has(todayStr) && !(S.streakRecoveryDays||[]).includes(todayStr)) {
+    S.streakRecoveryDays = [...(S.streakRecoveryDays||[]), todayStr].sort();
+    const progress = consecSuffix(S.streakRecoveryDays, todayStr);
+    if (progress >= 3) {
+      // Recovery complete!
+      // After 3 recovery days, rawStreak() = 3. We want display = brokenVal.
+      // On day 4, rawStreak() = 4. We want display = brokenVal + 1.
+      // Solution: store streakOffset = brokenVal - 3. display = rawStreak() + offset.
+      const brokenVal = S.streakBroken;
+      S.streakOffset = brokenVal - 3; // e.g. 15-3=12
+      S.streakBroken = 0;
+      S.streakBrokenDate = '';
+      S.streakRecoveryDays = [];
+      save();
+    } else {
+      save();
+    }
+  }
+}
+
+// Returns {display, recovering, recoveryProgress, recoveryTotal}
+function streakInfo() {
+  const todayStr = today();
+  const days = new Set(S.sessions.map(s => s.date));
+
+  // Active recovery
+  if (S.streakBroken) {
+    const recovDays = S.streakRecoveryDays || [];
+    const effective = days.has(todayStr) && !recovDays.includes(todayStr)
+      ? [...recovDays, todayStr] : recovDays;
+    const progress = consecSuffix(effective, todayStr);
+    return {
+      display: S.streakBroken,
+      recovering: true,
+      recoveryProgress: progress,
+      recoveryTotal: 3
+    };
+  }
+
+  // Normal mode (offset applied if recovery was recently completed)
+  const offset = S.streakOffset || 0;
+  const raw = rawStreak();
+
+  // If offset exists but raw broke again (gap day), clear offset
+  if (offset > 0 && raw === 0) {
+    S.streakOffset = 0;
+    save();
+  }
+
+  return { display: raw + offset, recovering: false, recoveryProgress: 0, recoveryTotal: 3 };
+}
+
+// Simple streak number for backward compat
+function streak() { return streakInfo().display; }
 
 // Week from Mon to Sun (UTC+8), always 7 days Mon→Sun of current week
 let weekOffset = 0; // 0 = current week, -1 = last week, etc.
@@ -1512,14 +1631,36 @@ function drawTimer() {
 // ═══ SESSIONS ═══
 function saveSession(minutes, type, mood) {
   S.sessions.push({date:today(), minutes:parseInt(minutes), mood:mood||null, type});
+  syncStreakState();
   save(); refreshAll(); checkBadgeUnlocks();
 }
 function saveManualSession() {
   const v = document.getElementById('manual-mins').value;
   if(!v||parseInt(v)<1){showToast('Please enter valid minutes');return;}
+
+  // Ripple effect on button
+  const btn = document.getElementById('save-session-btn');
+  btn.classList.add('rippling');
+  setTimeout(()=>btn.classList.remove('rippling'), 420);
+
+  // Check recovery state BEFORE saving (to craft correct toast)
+  const infoBefore = streakInfo();
+  const wasRecovering = infoBefore.recovering;
+  const progressBefore = infoBefore.recoveryProgress;
+
   saveSession(parseInt(v),'manual',currentMood);
   document.getElementById('manual-mins').value='';
-  showToast('✅ Session saved~ great work!');
+
+  // Pick toast message based on what just happened
+  const infoAfter = streakInfo();
+  if (wasRecovering && !infoAfter.recovering) {
+    showToast(`🔥 Streak restored! Back to ${infoAfter.display} days~`);
+  } else if (wasRecovering || infoAfter.recovering) {
+    const left = infoAfter.recoveryTotal - infoAfter.recoveryProgress;
+    showToast(`✅ Session saved~ ${left} more day${left===1?'':'s'} to restore streak!`);
+  } else {
+    showToast('✅ Session saved~ great work!');
+  }
 }
 
 // ═══ AVATAR ═══
@@ -1766,8 +1907,40 @@ function renderHome() {
   document.getElementById('goal-hrs-display').textContent=S.goalHours;
   const pct=Math.min(1,m/g), circ=87.96;
   document.getElementById('goal-arc').setAttribute('stroke-dasharray',`${(pct*circ).toFixed(1)},${circ}`);
-  document.getElementById('home-streak').textContent=streak();
+  renderStreakDisplay();
   document.getElementById('home-focus').textContent=getFocusDisplay();
+}
+
+function renderStreakDisplay() {
+  const info = streakInfo();
+  const el = document.getElementById('home-streak');
+  const card = el.closest('.stat-card');
+
+  if (info.recovering) {
+    el.textContent = info.display;
+    // Show recovery dots if not already there
+    let dots = card.querySelector('.streak-recovery');
+    if (!dots) {
+      dots = document.createElement('div');
+      dots.className = 'streak-recovery';
+      card.appendChild(dots);
+    }
+    const filled = info.recoveryProgress;
+    const total = info.recoveryTotal;
+    dots.innerHTML = Array.from({length: total}, (_,i) =>
+      `<span class="streak-dot${i < filled ? ' lit' : ''}">🔥</span>`
+    ).join('');
+    // Tint card
+    card.style.background = 'linear-gradient(135deg, rgba(255,140,0,.06), rgba(255,100,0,.1))';
+    card.style.border = '1px solid rgba(255,140,0,.15)';
+  } else {
+    el.textContent = info.display;
+    // Clean up recovery UI
+    const dots = card.querySelector('.streak-recovery');
+    if (dots) dots.remove();
+    card.style.background = '';
+    card.style.border = '';
+  }
 }
 
 // ═══ RENDER ACHIEVEMENTS ═══
@@ -1781,7 +1954,10 @@ function renderAchievements() {
   document.getElementById('xp-cur').textContent=xp.toLocaleString();
   document.getElementById('xp-next-lbl').textContent=(nl?nl.min:cl.max).toLocaleString();
   document.getElementById('xp-msg').textContent=nl?`Keep going~ ${(nl.min-xp).toLocaleString()} XP to Level ${nl.n}!`:'🎉 You reached true mastery!';
-  document.getElementById('cal-streak').textContent=streak()+' Day Streak';
+  const info = streakInfo();
+  document.getElementById('cal-streak').textContent = info.recovering
+    ? `${info.display} Days · Recovering ${info.recoveryProgress}/${info.recoveryTotal} 🔥`
+    : `${info.display} Day Streak`;
   renderCalendar();
   renderWeekChart();
   renderMonthChart();
@@ -2653,6 +2829,9 @@ window.addEventListener('DOMContentLoaded', ()=>{
 
   // Badges snapshot
   BADGES.forEach(b=>{prevBadges[b.id]=b.check();});
+
+  // Sync streak state (detect breaks that happened while app was closed)
+  syncStreakState();
 
   // Render
   refreshAll();
